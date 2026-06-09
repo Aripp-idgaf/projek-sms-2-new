@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - MediFlow</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="admin.css" rel="stylesheet">
+</head>
+<body class="bg-pasien">
+
+    <div class="ashley-container">
+        
+        <div class="ash-sidebar shadow-sm">
+            <div class="fs-6 mb-4 text-center lh-1" style="font-family: 'Quicksand', sans-serif; font-weight: 600;">
+                <i class="bi bi-heart-pulse fs-3 d-block mb-1"></i>Med<br>Flow
+                <span class="admin-badge d-block mx-auto mt-2" style="width: max-content; font-family: 'Poppins', sans-serif; font-weight: 800;">ADMIN PANEL</span>
+            </div>
+            
+            <div class="nav-wrapper active" onclick="switchView('view-home', this)"><div class="nav-icon"><i class="bi bi-house-door"></i></div><span class="nav-label">Home</span></div>
+            <div class="nav-wrapper" onclick="switchView('view-pasien', this)"><div class="nav-icon"><i class="bi bi-people"></i></div><span class="nav-label">Pasien</span></div>
+            <div class="nav-wrapper" onclick="switchView('view-dokter', this)"><div class="nav-icon"><i class="bi bi-heart-pulse"></i></div><span class="nav-label">Dokter</span></div>
+            <div class="nav-wrapper" onclick="switchView('view-booking', this)"><div class="nav-icon"><i class="bi bi-door-open"></i></div><span class="nav-label">Kamar</span></div>
+            <div class="nav-wrapper" onclick="switchView('view-keuangan', this)"><div class="nav-icon"><i class="bi bi-wallet2"></i></div><span class="nav-label">Keuangan</span></div>
+            
+            <div class="mt-auto w-100 d-flex flex-column align-items-center">
+                <div class="nav-wrapper text-danger" onclick="logout()" role="button">
+                    <div class="nav-icon"><i class="bi bi-box-arrow-right"></i></div><span class="nav-label">Keluar</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ash-main">
+            
+            <div class="top-bar">
+                <div class="search-box">
+                    <i class="bi bi-search text-muted"></i>
+                    <input type="text" placeholder="Cari ID Pasien, Nama Dokter, atau No. Invoice...">
+                </div>
+                <div class="header-icons d-flex">
+                    <button class="icon-btn"><i class="bi bi-bell-fill"></i><span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle" style="margin-top: 10px; margin-left: -10px;"></span></button>
+                    <div class="d-flex align-items-center ms-3 bg-white p-2 pe-3 rounded-pill shadow-sm cursor-pointer border">
+                        <img src="https://ui-avatars.com/api/?name=Admin+RS&background=eef5f5&color=38c8e6" class="rounded-circle me-2" width="30">
+                        <span class="fw-bold small text-dark">Super Admin</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-home" class="view-section">
+                
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="rswn-card-wrapper rswn-c1" onclick="switchView('view-pasien', document.querySelectorAll('.nav-wrapper')[1])">
+                            <div class="rswn-card-bg"></div>
+                            <div class="rswn-content">
+                                <div class="rswn-icon-top"><i class="bi bi-people-fill"></i></div>
+                                <h5 class="rswn-title">DATABASE PASIEN</h5>
+                                <p class="rswn-desc">Kelola data rekam medis pasien.</p>
+                                <span class="badge bg-light text-primary border px-2 py-1" id="rswnTotalPasien" style="font-size:0.65rem;">0 Pasien</span>
+                            </div>
+                            <div class="rswn-btn-bottom"><i class="bi bi-arrow-right-short"></i></div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="rswn-card-wrapper rswn-c2" onclick="switchView('view-dokter', document.querySelectorAll('.nav-wrapper')[2])">
+                            <div class="rswn-card-bg"></div>
+                            <div class="rswn-content">
+                                <div class="rswn-icon-top"><i class="bi bi-heart-pulse-fill"></i></div>
+                                <h5 class="rswn-title">MANAJEMEN DOKTER</h5>
+                                <p class="rswn-desc">Pantau jadwal shift & cuti dokter.</p>
+                                <span class="badge bg-light text-success border px-2 py-1" id="rswnTotalDokter" style="font-size:0.65rem;">0 Dokter</span>
+                            </div>
+                            <div class="rswn-btn-bottom"><i class="bi bi-arrow-right-short"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="rswn-card-wrapper rswn-c3" onclick="switchView('view-booking', document.querySelectorAll('.nav-wrapper')[3])">
+                            <div class="rswn-card-bg"></div>
+                            <div class="rswn-content">
+                                <div class="rswn-icon-top"><i class="bi bi-door-open-fill"></i></div>
+                                <h5 class="rswn-title">BOOKING KAMAR</h5>
+                                <p class="rswn-desc">Alokasi inap & ketersediaan bed.</p>
+                                <span class="badge bg-light text-warning border px-2 py-1" id="rswnTotalBooking" style="font-size:0.65rem;">0 Booking</span>
+                            </div>
+                            <div class="rswn-btn-bottom"><i class="bi bi-arrow-right-short"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="rswn-card-wrapper rswn-c4" onclick="switchView('view-keuangan', document.querySelectorAll('.nav-wrapper')[4])">
+                            <div class="rswn-card-bg"></div>
+                            <div class="rswn-content">
+                                <div class="rswn-icon-top"><i class="bi bi-shield-fill-check"></i></div>
+                                <h5 class="rswn-title">KLAIM & KEUANGAN</h5>
+                                <p class="rswn-desc">Pantau invoice & klaim BPJS.</p>
+                                <span class="badge bg-light text-danger border px-2 py-1" style="font-size:0.65rem;">12 Pending</span>
+                            </div>
+                            <div class="rswn-btn-bottom"><i class="bi bi-arrow-right-short"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 flex-grow-1 overflow-hidden pb-2">
+                    <div class="col-xl-5 col-lg-6 h-100">
+                        <div class="med-card h-100 d-flex flex-column">
+                            <h6 class="fw-bold mb-3 small text-dark">Statistik Kunjungan RS (2026)</h6>
+                            <div class="flex-grow-1" style="position: relative; width: 100%; height: 140px;"><canvas id="adminBarChart"></canvas></div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-6 h-100">
+                        <div class="med-card h-100 d-flex flex-column">
+                            <h6 class="fw-bold text-dark mb-3 small"><i class="bi bi-door-open text-info me-2"></i>Status Ranjang Inap</h6>
+                            <div class="flex-grow-1 d-flex flex-column justify-content-around" style="font-size: 0.75rem;">
+                                <div class="d-flex justify-content-between border-bottom pb-1">
+                                    <span class="text-muted fw-semibold">Suite / VIP</span>
+                                    <span class="fw-bold text-dark" id="bedVipDash">0 / 15 Bed</span>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom pb-1">
+                                    <span class="text-muted fw-semibold">Kelas I</span>
+                                    <span class="fw-bold text-dark" id="bedKelas1Dash">0 / 40 Bed</span>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom pb-1">
+                                    <span class="text-muted fw-semibold">Kelas II</span>
+                                    <span class="fw-bold text-dark" id="bedKelas2Dash">0 / 50 Bed</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted fw-semibold">Kelas III</span>
+                                    <span class="fw-bold text-dark" id="bedKelas3Dash">0 / 80 Bed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xl-4 col-lg-12 h-100">
+                        <div class="med-card h-100 bg-white border border-info border-2 d-flex flex-column">
+                            <h6 class="fw-bold text-primary mb-2 small"><i class="bi bi-shield-check me-2"></i>Verifikasi Cepat BPJS</h6>
+                            <p class="text-muted mb-3" style="font-size: 0.75rem;">Masukkan Nama pasien untuk mengecek status kepesertaan aktif BPJS.</p>
+                            <div class="input-group mb-2">
+                                <input type="text" id="adminInput" class="form-control bg-light border-0" placeholder="Ketik: John / Jane / Ashley" style="font-size:0.8rem;">
+                                <button class="btn btn-primary fw-bold btn-sm" onclick="cekBpjsAdmin()"><i class="bi bi-search"></i></button>
+                            </div>
+                            <div id="hasilAdmin" class="bg-light text-dark p-2 rounded-3 d-none border flex-grow-1 overflow-auto" style="font-size:0.75rem;">
+                                <h6 class="fw-bold text-dark mb-1" id="resNamaAdmin">-</h6>
+                                <div id="resStatusAdmin"></div>
+                                <div id="btnAksiAdmin" class="mt-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-pasien" class="view-section d-none">
+                <div class="med-card h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                        <div>
+                            <h5 class="fw-bold mb-1 text-dark">Database Pasien Terdaftar</h5>
+                            <p class="small text-muted mb-0">Kelola dan perbarui data rekam medis beserta rujukan dokter penanggung jawab.</p>
+                        </div>
+                        <button class="btn btn-primary rounded-pill px-4 py-2 shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#modalTambahPasien" onclick="isiDropdownDokterPilihan('inputDokterPasien')">
+                            <i class="bi bi-person-plus-fill me-2"></i>Pasien Baru
+                        </button>
+                    </div>
+                    <div class="table-custom-wrapper">
+                        <table class="table table-custom">
+                            <thead>
+                                <tr>
+                                    <th>No. Rekam Medis</th>
+                                    <th>Profil Pasien</th>
+                                    <th>Dokter Rujukan</th>
+                                    <th>Jenis Layanan</th>
+                                    <th>Gol. Darah</th>
+                                    <th class="text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelPasienBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-dokter" class="view-section d-none">
+                <div class="med-card h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                        <div>
+                            <h5 class="fw-bold mb-1 text-dark">Database Dokter Terdaftar</h5>
+                            <p class="small text-muted mb-0">Kelola jadwal praktek, status, dan lihat daftar pasien yang sedang ditangani secara real-time.</p>
+                        </div>
+                        <button class="btn btn-primary rounded-pill px-4 py-2 shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#modalTambahDokter">
+                            <i class="bi bi-person-plus-fill me-2"></i>Tambah Dokter
+                        </button>
+                    </div>
+                    <div class="table-custom-wrapper">
+                        <table class="table table-custom mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Kode Dokter</th>
+                                    <th>Profil Dokter</th>
+                                    <th>Spesialis & Ruangan</th>
+                                    <th>Jadwal & Jam Praktek</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelDokterBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-booking" class="view-section d-none">
+                <div class="med-card h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                        <div>
+                            <h5 class="fw-bold mb-1 text-dark">Database Booking Kamar Rawat Inap</h5>
+                            <p class="small text-muted mb-0">Kelola reservasi bangsal, check-in aktif, durasi, dan catatan medis inap pasien.</p>
+                        </div>
+                        <button class="btn btn-primary rounded-pill px-4 py-2 shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#modalTambahBooking" onclick="isiDropdownPasienBooking()">
+                            <i class="bi bi-door-open-fill me-2"></i>Booking Kamar
+                        </button>
+                    </div>
+                    <div class="table-custom-wrapper">
+                        <table class="table table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Kode Booking</th>
+                                    <th>Profil Pasien</th>
+                                    <th>Kelas & No. Kamar</th>
+                                    <th>Durasi Inap</th>
+                                    <th>Status & Keterangan</th>
+                                    <th class="text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelBookingBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-keuangan" class="view-section d-none"><div class="med-card h-100 d-flex justify-content-center align-items-center flex-column"><i class="bi bi-wallet2 text-muted mb-3" style="font-size: 3rem;"></i><h4 class="text-muted fw-bold">Keuangan RS</h4></div></div>
+
+        </div> 
+    </div>
+
+    <div class="modal fade" id="modalTambahPasien" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 25px; overflow: hidden;">
+                <div class="modal-header border-0 bg-light p-4">
+                    <div>
+                        <h5 class="fw-bold text-dark mb-1"><i class="bi bi-person-badge-fill text-primary me-2"></i>Registrasi Pasien Baru</h5>
+                        <p class="small text-muted mb-0">Tentukan rujukan dokter pemeriksa saat mendaftar.</p>
+                    </div>
+                    <button type="button" class="btn-close mb-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="small text-muted fw-bold mb-2">Nama Lengkap Pasien <span class="text-danger">*</span></label>
+                        <div class="input-group-custom">
+                            <i class="bi bi-person"></i>
+                            <input type="text" id="inputNamaPasien" placeholder="Contoh: Budi Santoso">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small text-muted fw-bold mb-2">Dokter Rujukan / Pemeriksa <span class="text-danger">*</span></label>
+                        <div class="input-group-custom">
+                            <i class="bi bi-heart-pulse-fill text-info"></i>
+                            <select id="inputDokterPasien"></select>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Golongan Darah</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-droplet-half text-danger"></i>
+                                <select id="inputGolDarah">
+                                    <option value="A+">A+</option><option value="B+">B+</option><option value="AB+">AB+</option><option value="O+">O+</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Jenis Layanan</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-shield-check text-success"></i>
+                                <select id="inputJenisLayanan">
+                                    <option value="BPJS">BPJS</option>
+                                    <option value="Umum">Umum</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="small text-muted fw-bold mb-2">Kategori Usia</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-people text-info"></i>
+                                <select id="inputKategoriUsia">
+                                    <option value="Anak">Anak</option>
+                                    <option value="Dewasa">Dewasa</option>
+                                    <option value="Lansia">Lansia</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4 fw-bold text-muted" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-5 fw-bold shadow-sm" onclick="simpanPasienBaru()">Simpan Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEditPasien" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 25px; overflow: hidden;">
+                <div class="modal-header border-0 bg-light p-4">
+                    <div>
+                        <h5 class="fw-bold text-dark mb-1"><i class="bi bi-pencil-square text-primary me-2"></i>Ubah Rujukan Medis Pasien</h5>
+                        <p class="small text-muted mb-0">Alihkan penanganan penugasan pasien ke dokter atau spesialis lain.</p>
+                    </div>
+                    <button type="button" class="btn-close mb-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="small text-muted fw-bold mb-2">Nama Pasien</label>
+                        <div class="input-group-custom bg-light">
+                            <i class="bi bi-person text-muted"></i>
+                            <input type="text" id="editNamaPasien" disabled>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small text-muted fw-bold mb-2">Pindahkan ke Dokter Rujukan Baru <span class="text-danger">*</span></label>
+                        <div class="input-group-custom">
+                            <i class="bi bi-heart-pulse-fill text-primary"></i>
+                            <select id="editDokterPasien"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4 fw-bold text-muted" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-5 fw-bold shadow-sm" onclick="simpanPerubahanPasien()">Simpan Perubahan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalTambahDokter" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 25px; overflow: hidden;">
+                <div class="modal-header border-0 bg-light p-4">
+                    <div>
+                        <h5 class="fw-bold text-dark mb-1"><i class="bi bi-heart-pulse-fill text-primary me-2"></i>Registrasi Dokter Baru</h5>
+                        <p class="small text-muted mb-0">Tambahkan data dokter dan jadwal praktek ke dalam sistem.</p>
+                    </div>
+                    <button type="button" class="btn-close mb-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="small text-muted fw-bold mb-2">Nama Lengkap Dokter <span class="text-danger">*</span></label>
+                        <div class="input-group-custom">
+                            <i class="bi bi-person-badge"></i>
+                            <input type="text" id="inputNamaDokter" placeholder="Contoh: Dr. Budi Santoso, Sp.A">
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Spesialisasi</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-award text-warning"></i>
+                                <select id="inputSpesialis">
+                                    <option value="Dokter Umum">Dokter Umum</option>
+                                    <option value="Spesialis Kulit">Spesialis Kulit</option>
+                                    <option value="Spesialis Jantung">Spesialis Jantung</option>
+                                    <option value="Spesialis Anak">Spesialis Anak</option>
+                                    <option value="Spesialis Bedah">Spesialis Bedah</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Ruangan / Poli</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-door-open text-primary"></i>
+                                <input type="text" id="inputRuangan" placeholder="Contoh: Poli Anak (R.03)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Jadwal Praktek</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-calendar-check text-success"></i>
+                                <select id="inputJadwal">
+                                    <option value="Senin - Jumat">Senin - Jumat</option>
+                                    <option value="Senin - Rabu">Senin - Rabu</option>
+                                    <option value="Kamis - Sabtu">Kamis - Sabtu</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Jam Kerja</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-clock-history text-info"></i>
+                                <input type="text" id="inputJam" placeholder="Contoh: 08:00 - 15:00">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-1">
+                        <label class="small text-muted fw-bold mb-2">Status Saat Ini</label>
+                        <div class="input-group-custom">
+                            <i class="bi bi-broadcast text-danger"></i>
+                            <select id="inputStatusDokter">
+                                <option value="Aktif">Aktif / Tersedia</option>
+                                <option value="Cuti">Cuti / Libur</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4 fw-bold text-muted" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-5 fw-bold shadow-sm" onclick="simpanDokterBaru()">Simpan Dokter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEditDokter" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 25px; overflow: hidden;">
+                <div class="modal-header border-0 bg-light p-4">
+                    <div>
+                        <h5 class="fw-bold text-dark mb-1"><i class="bi bi-pencil-square text-primary me-2"></i>Ubah Jadwal & Data Dokter</h5>
+                        <p class="small text-muted mb-0">Perbarui penugasan, ruangan, atau jam praktik dokter.</p>
+                    </div>
+                    <button type="button" class="btn-close mb-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="small text-muted fw-bold mb-2">Nama Lengkap Dokter</label>
+                        <div class="input-group-custom">
+                            <i class="bi bi-person-badge"></i>
+                            <input type="text" id="editNamaDokter" placeholder="Nama Dokter">
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Spesialisasi</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-award text-warning"></i>
+                                <select id="editSpesialis">
+                                    <option value="Dokter Umum">Dokter Umum</option>
+                                    <option value="Spesialis Kulit">Spesialis Kulit</option>
+                                    <option value="Spesialis Jantung">Spesialis Jantung</option>
+                                    <option value="Spesialis Anak">Spesialis Anak</option>
+                                    <option value="Spesialis Bedah">Spesialis Bedah</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Ruangan / Poli</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-door-open text-primary"></i>
+                                <input type="text" id="editRuangan" placeholder="Contoh: Poli R.05">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Jadwal Praktek</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-calendar-check text-success"></i>
+                                <select id="editJadwal">
+                                    <option value="Senin - Jumat">Senin - Jumat</option>
+                                    <option value="Senin - Rabu">Senin - Rabu</option>
+                                    <option value="Kamis - Sabtu">Kamis - Sabtu</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Jam Kerja</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-clock-history text-info"></i>
+                                <input type="text" id="editJam" placeholder="Contoh: 08:00 - 15:00">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-1">
+                        <label class="small text-muted fw-bold mb-2">Status Saat Ini</label>
+                        <div class="input-group-custom">
+                            <i class="bi bi-broadcast text-danger"></i>
+                            <select id="editStatusDokter">
+                                <option value="Aktif">Aktif / Tersedia</option>
+                                <option value="Cuti">Cuti / Libur</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4 fw-bold text-muted" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-5 fw-bold shadow-sm" onclick="simpanPerubahanDokter()">Simpan Perubahan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalTambahBooking" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 25px; overflow: hidden;">
+                <div class="modal-header border-0 bg-light p-4">
+                    <div>
+                        <h5 class="fw-bold text-dark mb-1"><i class="bi bi-door-open-fill text-primary me-2"></i>Reservasi Kamar Inap Baru</h5>
+                        <p class="small text-muted mb-0">Alokasikan bangsal berdasarkan status BPJS/Umum pasien.</p>
+                    </div>
+                    <button type="button" class="btn-close mb-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="small text-muted fw-bold mb-2">Pilih Pasien Terdaftar <span class="text-danger">*</span></label>
+                        <div class="input-group-custom">
+                            <i class="bi bi-person"></i>
+                            <select id="inputPasienBooking" onchange="filterKelasKamarBerdasarLayanan('inputPasienBooking', 'inputKelasKamar')"></select>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Kelas Kamar (Fasilitas) <span class="text-danger">*</span></label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-layer-forward text-warning"></i>
+                                <select id="inputKelasKamar">
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Nomor Kamar / Bed <span class="text-danger">*</span></label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-hash text-primary"></i>
+                                <input type="text" id="inputNomorKamar" placeholder="Contoh: Kamar 302">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Tanggal Check-In <span class="text-danger">*</span></label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-calendar-plus text-success"></i>
+                                <input type="date" id="inputCheckIn">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Tanggal Check-Out <span class="text-danger">*</span></label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-calendar-minus text-danger"></i>
+                                <input type="date" id="inputCheckOut">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small text-muted fw-bold mb-2">Status Alokasi</label>
+                        <div class="input-group-custom">
+                            <i class="bi bi-toggle-on text-info"></i>
+                            <select id="inputStatusBooking">
+                                <option value="Waiting">Waiting (Booking Tempat)</option>
+                                <option value="Checked-In">Checked-In (Sedang Dirawat)</option>
+                                <option value="Checked-Out">Checked-Out (Selesai/Pulang)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-1">
+                        <label class="small text-muted fw-bold mb-2">Catatan Medis / Keterangan Masuk</label>
+                        <div class="input-group-custom">
+                            <i class="bi bi-journal-text text-muted"></i>
+                            <input type="text" id="inputKeteranganBooking" placeholder="Contoh: Pemulihan intensif pasca rawat">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4 fw-bold text-muted" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-5 fw-bold shadow-sm" onclick="simpanBookingBaru()">Simpan Reservasi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEditBooking" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 25px; overflow: hidden;">
+                <div class="modal-header border-0 bg-light p-4">
+                    <div>
+                        <h5 class="fw-bold text-dark mb-1"><i class="bi bi-pencil-square text-primary me-2"></i>Ubah Reservasi Kamar Inap</h5>
+                        <p class="small text-muted mb-0">Perbarui rincian kamar, tanggal masuk, atau status pulang pasien.</p>
+                    </div>
+                    <button type="button" class="btn-close mb-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="small text-muted fw-bold mb-2">Nama Pasien</label>
+                        <div class="input-group-custom bg-light">
+                            <i class="bi bi-person text-muted"></i>
+                            <input type="text" id="editNamaPasienBooking" disabled>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Kelas Kamar (RSWN)</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-layer-forward text-warning"></i>
+                                <select id="editKelasKamar">
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Nomor Kamar</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-hash text-primary"></i>
+                                <input type="text" id="editNomorKamar" placeholder="Contoh: Kamar 305">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Tanggal Check-In</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-calendar-plus text-success"></i>
+                                <input type="date" id="editCheckIn">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-bold mb-2">Tanggal Check-Out</label>
+                            <div class="input-group-custom">
+                                <i class="bi bi-calendar-minus text-danger"></i>
+                                <input type="date" id="editCheckOut">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small text-muted fw-bold mb-2">Status Alokasi</label>
+                        <div class="input-group-custom">
+                            <i class="bi bi-toggle-on text-info"></i>
+                            <select id="editStatusBooking">
+                                <option value="Waiting">Waiting</option>
+                                <option value="Checked-In">Checked-In</option>
+                                <option value="Checked-Out">Checked-Out</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-1">
+                        <label class="small text-muted fw-bold mb-2">Catatan Medis / Keterangan</label>
+                        <div class="input-group-custom">
+                            <i class="bi bi-journal-text text-muted"></i>
+                            <input type="text" id="editKeteranganBooking" placeholder="Catatan tambahan">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4 fw-bold text-muted" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-5 fw-bold shadow-sm" onclick="simpanPerubahanBooking()">Simpan Perubahan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalHapusPasien" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow-lg text-center p-4" style="border-radius: 25px;">
+                <div class="mx-auto bg-danger bg-opacity-10 text-danger rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                    <i class="bi bi-trash3-fill fs-2"></i>
+                </div>
+                <h5 class="fw-bold text-dark mb-2">Hapus Pasien?</h5>
+                <p class="small text-muted mb-4">Data <span id="namaHapus" class="fw-bold text-dark"></span> akan dihapus permanen.</p>
+                <div class="d-flex gap-2 w-100">
+                    <button type="button" class="btn btn-light w-50 rounded-pill fw-bold" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger w-50 rounded-pill fw-bold shadow-sm" onclick="eksekusiHapus()">Ya, Hapus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalHapusDokter" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow-lg text-center p-4" style="border-radius: 25px;">
+                <div class="mx-auto bg-danger bg-opacity-10 text-danger rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                    <i class="bi bi-person-x-fill fs-2"></i>
+                </div>
+                <h5 class="fw-bold text-dark mb-2">Hapus Dokter?</h5>
+                <p class="small text-muted mb-4">Data <span id="namaHapusDokter" class="fw-bold text-dark"></span> akan dihapus permanen.</p>
+                <div class="d-flex gap-2 w-100">
+                    <button type="button" class="btn btn-light w-50 rounded-pill fw-bold" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger w-50 rounded-pill fw-bold shadow-sm" onclick="eksekusiHapusDokter()">Ya, Hapus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalHapusBooking" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow-lg text-center p-4" style="border-radius: 25px;">
+                <div class="mx-auto bg-danger bg-opacity-10 text-danger rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                    <i class="bi bi-exclamation-triangle-fill fs-2"></i>
+                </div>
+                <h5 class="fw-bold text-dark mb-2">Batalkan Booking?</h5>
+                <p class="small text-muted mb-4">Reservasi kamar inap pasien <span id="namaHapusBooking" class="fw-bold text-dark"></span> akan dihapus permanen.</p>
+                <div class="d-flex gap-2 w-100">
+                    <button type="button" class="btn btn-light w-50 rounded-pill fw-bold" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger w-50 rounded-pill fw-bold shadow-sm" onclick="eksekusiHapusBooking()">Ya, Hapus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="admin.js"></script>
+</body>
+</html>

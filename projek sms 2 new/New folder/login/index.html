@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediFlow | Medical Sign In</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        
+        body.login-mode {
+            background-image: url('../../wallpaper/rs.jpg'); 
+            background-size: 1200px;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0; padding: 20px; position: relative;
+            font-family: 'Poppins', sans-serif;
+        }
+        body.login-mode::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 80% 20%, rgba(100, 110, 120, 0.1) 0%, rgba(255,255,255,0) 70%);
+            pointer-events: none; z-index: 0;
+        }
+        
+        .login-wrapper { position: relative; z-index: 10; width: 100%; display: flex; justify-content: center; }
+        .login-split {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 28px; overflow: hidden; background: white;
+            display: flex; width: 1100px; max-width: 100%; min-height: 600px; position: relative;
+        }
+        
+        .log-left { flex: 1; position: relative; overflow: hidden; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; }
+        .log-right { flex: 1.1; padding: 45px 60px; display: flex; flex-direction: column; justify-content: center; align-items: stretch; background: #ffffff; transition: transform 0.5s ease-in-out; }
+        
+        /* Gaya Animasi Slide Samping Infinite */
+        .slider-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0;
+        }
+        .slider-track {
+            display: flex; width: 100%; height: 100%;
+        }
+        .slider-track img {
+            width: 100%; height: 100%; object-fit: cover; flex-shrink: 0;
+        }
+
+        .slider-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(40, 45, 50, 0.6) 0%, rgba(20, 25, 30, 0.5) 100%); z-index: 1; }
+        
+        .cal-logo { display: flex; align-items: center; color: white; font-weight: 600; font-size: 1.4rem; position: relative; z-index: 2; text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .cal-logo i { font-size: 2rem; margin-right: 12px; color: #a0e7f5; }
+        .cal-footer { position: relative; z-index: 2; color: rgba(255, 255, 255, 0.85); font-size: 0.75rem; font-weight: 400; letter-spacing: 0.3px; }
+        
+        .form-logo { text-align: center; margin-bottom: 12px; }
+        .form-logo i { font-size: 4rem; color: #38c8e6; }
+        .user-type-select {
+            width: 100%; border-radius: 60px !important; padding: 13px 18px 13px 48px !important;
+            border: 1.5px solid #e2edf2 !important; font-size: 0.85rem; color: #1e2f3a;
+            background-color: #fefefe; appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%238aa4b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-repeat: no-repeat; background-position: right 18px center; cursor: pointer;
+        }
+        .user-type-select:focus { border-color: #38c8e6 !important; box-shadow: 0 0 0 4px rgba(56, 200, 230, 0.12) !important; outline: none; }
+        .input-icon { position: relative; margin-bottom: 20px; width: 100%; }
+        .input-icon i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #a0b8c2; font-size: 1.1rem; z-index: 5; transition: color 0.2s; }
+        .cal-input {
+            width: 100%; border-radius: 60px !important; padding: 13px 18px 13px 48px !important;
+            border: 1.5px solid #e2edf2 !important; font-size: 0.85rem; color: #1e2f3a;
+            background-color: #fefefe; transition: all 0.2s;
+        }
+        .cal-input:focus { border-color: #38c8e6 !important; box-shadow: 0 0 0 4px rgba(56, 200, 230, 0.12) !important; outline: none; background-color: #fff; }
+        .cal-input::placeholder { color: #b9cfda; font-weight: 400; }
+        
+        .forgot-password { text-align: right; font-size: 0.7rem; margin-top: -12px; margin-bottom: 16px; }
+        .forgot-password a { color: #8aa4b0; text-decoration: none; transition: color 0.2s; cursor: pointer; }
+        .forgot-password a:hover { color: #38c8e6; text-decoration: underline; }
+        
+        .btn-cal {
+            background: linear-gradient(95deg, #38c8e6, #25b3d1); color: white; border: none; width: 100%; padding: 14px;
+            border-radius: 60px; font-weight: 600; transition: all 0.25s ease; margin-top: 8px; box-shadow: 0 5px 12px rgba(56, 200, 230, 0.3);
+        }
+        .btn-cal:hover:not(:disabled) { background: linear-gradient(95deg, #2ab3d1, #1c9bb5); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(56, 200, 230, 0.35); }
+        .btn-cal:disabled { background: #b9cfda; cursor: not-allowed; box-shadow: none; }
+        
+        .terms-wrapper { text-align: center; font-size: 0.78rem; margin: 16px 0 12px; }
+        .terms-wrapper label { color: #5e7e8c; cursor: pointer; }
+        .terms-wrapper a { color: #38c8e6; text-decoration: none; font-weight: 500; }
+        .terms-wrapper a:hover { text-decoration: underline; }
+        
+        .signup-link { text-align: center; font-size: 0.82rem; color: #7d99a6; margin-top: 18px; }
+        .signup-link a { color: #38c8e6; font-weight: 600; text-decoration: none; cursor: pointer; }
+        
+        .d-none { display: none !important; }
+        
+        @media (max-width: 850px) {
+            .login-split { flex-direction: column; min-height: auto; }
+            .log-left { min-height: 250px; }
+            .log-right { padding: 40px 30px; }
+        }
+    </style>
+</head>
+<body class="login-mode">
+
+    <div class="login-wrapper">
+        <div class="login-split">
+            <div class="log-left">
+                <div class="slider-container">
+                    <div class="slider-track" id="slider-track"></div>
+                </div>
+                <div class="slider-overlay"></div>
+                <div class="cal-logo">
+                    <i class="bi bi-heart-pulse"></i>
+                    <span>MediFlow</span>
+                </div>
+                <div class="cal-footer">All Rights Reserved 2026</div>
+            </div>
+
+            <div class="log-right" id="form-container">
+                
+                <div id="login-form">
+                    <div class="form-logo"><i class="bi bi-heart-pulse"></i></div>
+                    <h3 style="color: #1c3b44; text-align: center; margin-bottom: 6px; font-weight: 700; font-size: 1.8rem;">Masuk</h3>
+                    <p style="color: #8aa4b0; text-align: center; font-size: 0.85rem; margin-bottom: 28px;">Silakan masuk ke akun Anda</p>
+
+                    <div class="input-icon">
+                        <select id="loginUserType" class="user-type-select">
+                            <option value="pasien">Pasien</option>
+                            <option value="dokter">Dokter</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+
+                    <div class="input-icon">
+                        <i class="bi bi-envelope"></i>
+                        <input type="email" id="loginEmail" class="cal-input" placeholder="Alamat Email">
+                    </div>
+
+                    <div class="input-icon">
+                        <i class="bi bi-lock"></i>
+                        <input type="password" id="loginPassword" class="cal-input" placeholder="Kata Sandi">
+                    </div>
+
+                    <div class="forgot-password"><a onclick="bukaModalLupaSandi()">Lupa kata sandi?</a></div>
+
+                    <div class="terms-wrapper">
+                        <input type="checkbox" id="loginTerms" style="margin-right: 6px;">
+                        <label for="loginTerms"> Saya menyetujui <a href="#">Ketentuan Penggunaan</a></label>
+                    </div>
+
+                    <button type="button" class="btn-cal" id="btnLogin">Masuk Sistem</button>
+
+                    <div class="signup-link">
+                        Belum punya akun? <a onclick="toggleForms('register')">Daftar Sekarang</a>
+                    </div>
+                </div>
+
+                <div id="register-form" class="d-none">
+                    <div class="form-logo"><i class="bi bi-person-plus"></i></div>
+                    <h3 style="color: #1c3b44; text-align: center; margin-bottom: 6px; font-weight: 700; font-size: 1.8rem;">Daftar Akun</h3>
+                    <p style="color: #8aa4b0; text-align: center; font-size: 0.85rem; margin-bottom: 28px;">Bergabung dengan MediFlow</p>
+
+                    <div class="input-icon">
+                        <i class="bi bi-person-badge"></i>
+                        <input type="text" id="regName" class="cal-input" placeholder="Nama Lengkap Sesuai KTP">
+                    </div>
+
+                    <div class="input-icon">
+                        <i class="bi bi-envelope"></i>
+                        <input type="email" id="regEmail" class="cal-input" placeholder="Alamat Email Valid">
+                    </div>
+
+                    <div class="input-icon">
+                        <i class="bi bi-lock"></i>
+                        <input type="password" id="regPassword" class="cal-input" placeholder="Buat Kata Sandi (Minimal 6 Karakter)">
+                    </div>
+
+                    <div class="terms-wrapper">
+                        <input type="checkbox" id="regTerms" style="margin-right: 6px;">
+                        <label for="regTerms"> Saya menyetujui <a href="#">Kebijakan Privasi Data</a></label>
+                    </div>
+
+                    <button type="button" class="btn-cal" id="btnRegister">Buat Akun Pasien</button>
+
+                    <div class="signup-link">
+                        Sudah memiliki akun? <a onclick="toggleForms('login')">Kembali Masuk</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+    
+</body>
+</html>

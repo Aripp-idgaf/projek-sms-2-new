@@ -7,7 +7,31 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ====================================================
-// SCRIPT DASHBOARD
+// SCRIPT NAVIGASI HALAMAN (SINGLE PAGE APPLICATION)
+// ====================================================
+function switchView(viewId) {
+    document.querySelectorAll('.view-section').forEach(el => {
+        el.classList.add('d-none');
+        el.style.animation = 'none'; 
+    });
+    
+    const targetSection = document.getElementById(viewId);
+    targetSection.classList.remove('d-none');
+    
+    setTimeout(() => {
+        targetSection.style.animation = 'fadeInView 0.5s ease-out forwards';
+    }, 10);
+    
+    document.getElementById('main-content-area').scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function kirimJadwalAlert() {
+    alert('Jadwal berhasil dikirim! Silakan tunggu konfirmasi Admin.');
+    switchView('view-home'); 
+}
+
+// ====================================================
+// SCRIPT DASHBOARD - WAKTU
 // ====================================================
 function updateDateTime() {
     const now = new Date();
@@ -18,6 +42,9 @@ function updateDateTime() {
 setInterval(updateDateTime, 1000);
 updateDateTime();
 
+// ====================================================
+// SCRIPT PROFIL & SINKRONISASI (DENGAN AUTO-HEAL DATA)
+// ====================================================
 let currentUserSessionId = null;
 let familyProfiles = [];
 
@@ -28,7 +55,7 @@ async function loadUserProfile() {
 
         if (!token || role !== 'pasien') {
             localStorage.clear();
-            window.location.href = "../login/index.html"; // Jalur error ditendang diperbaiki
+            window.location.href = "../login/index.html"; 
             return;
         }
 
@@ -42,14 +69,22 @@ async function loadUserProfile() {
 
         if (userError || !user) {
             localStorage.clear();
-            window.location.href = "../login/index.html"; // Jalur error ditendang diperbaiki
+            window.location.href = "../login/index.html"; 
             return;
         }
 
         currentUserSessionId = user.id;
-
         document.getElementById('deviceInfo').innerText = navigator.userAgent.substring(0, 30) + "...";
         
+        // Ekstraksi Metadata Registrasi dari Supabase Auth
+        const meta = user.user_metadata || {};
+        const regName = meta.full_name || "Pasien Baru";
+        const regNik = meta.nik || "-";
+        const regUmur = meta.umur || "-";
+        const regGolDarah = meta.gol_darah || "-";
+        const regAlamat = meta.alamat || "-";
+
+        // Ambil Data dari Tabel Profiles
         const { data: profiles, error: profileError } = await window.supabase
             .from('profiles')
             .select('*')
@@ -61,31 +96,71 @@ async function loadUserProfile() {
         }
 
         familyProfiles = profiles || [];
-
         let mainProfile = familyProfiles.find(p => p.relationship === 'Anak');
-        const registeredName = user.user_metadata && user.user_metadata.full_name ? user.user_metadata.full_name : "Pasien Baru";
         
+        // JIKA BELUM ADA SAMA SEKALI (Buat Baru)
         if (!mainProfile) {
             mainProfile = {
-                name: registeredName,
+                name: regName,
                 relationship: 'Anak',
-                nomor_rm: 'Belum ada',
-                nik: '-',
+                nomor_rm: 'RM-' + Math.floor(Math.random() * 900000 + 100000), 
+                nik: regNik,
                 nomor_bpjs: '-',
-                blood_type: '-',
-                height: '',
-                weight: ''
+                blood_type: regGolDarah,
+                umur: regUmur,
+                alamat: regAlamat,
+                height: '-',
+                weight: '-'
             };
             familyProfiles.push(mainProfile);
+
+            window.supabase.from('profiles').insert([{
+                user_id: currentUserSessionId,
+                name: regName,
+                relationship: 'Anak',
+                nomor_rm: mainProfile.nomor_rm,
+                nik: regNik,
+                nomor_bpjs: '-',
+                blood_type: regGolDarah,
+                umur: parseInt(regUmur) || null,
+                alamat: regAlamat
+            }]).then(() => console.log("Profil Baru Berhasil Dibuat di Database"));
+
         } else {
-            mainProfile.name = registeredName;
+            // SINKRONISASI OTOMATIS: Jika login dengan akun lama yang NIK/Darahnya masih kosong,
+            // tarik datanya dari metadata (pendaftaran) dan perbarui databasenya secara permanen.
+            let needsDbUpdate = false;
+
+            if ((!mainProfile.nik || mainProfile.nik === '-') && regNik !== '-') { 
+                mainProfile.nik = regNik; needsDbUpdate = true; 
+            }
+            if ((!mainProfile.blood_type || mainProfile.blood_type === '-') && regGolDarah !== '-') { 
+                mainProfile.blood_type = regGolDarah; needsDbUpdate = true; 
+            }
+            if ((!mainProfile.umur || mainProfile.umur === '-') && regUmur !== '-') { 
+                mainProfile.umur = regUmur; needsDbUpdate = true; 
+            }
+            if ((!mainProfile.alamat || mainProfile.alamat === '-') && regAlamat !== '-') { 
+                mainProfile.alamat = regAlamat; needsDbUpdate = true; 
+            }
+
+            // Jalankan update ke Supabase jika ada data yang kosong sebelumnya
+            if (needsDbUpdate) {
+                window.supabase.from('profiles').update({
+                    nik: mainProfile.nik,
+                    blood_type: mainProfile.blood_type,
+                    umur: parseInt(mainProfile.umur) || null,
+                    alamat: mainProfile.alamat
+                }).eq('id', mainProfile.id).then(() => console.log("Auto-Sync Akun Lama Selesai"));
+            }
         }
 
+        // Jalankan Update Tampilan UI
         if (mainProfile) {
             updateRightPanelUI(mainProfile, user.email);
-            
             document.getElementById('settingsNameInput').value = mainProfile.name;
             document.getElementById('settingsEmailInput').value = user.email;
+            
             if(mainProfile.nomor_bpjs && mainProfile.nomor_bpjs !== '-') {
                 document.getElementById('inputSetBpjs').value = mainProfile.nomor_bpjs;
                 document.getElementById('statusBpjs').className = "badge bg-success rounded-pill";
@@ -98,7 +173,7 @@ async function loadUserProfile() {
     } catch (err) { 
         console.error("Error Load:", err); 
         localStorage.clear();
-        window.location.href = "../login/index.html"; // Jalur error ditendang diperbaiki
+        window.location.href = "../login/index.html"; 
     }
 }
 
@@ -109,15 +184,18 @@ function updateRightPanelUI(profile, email) {
         document.getElementById('ashNameTitle').innerText = profile.name ? profile.name.split(' ')[0] : 'Pasien';
     }
 
+    // UPDATE SEMUA TAMPILAN SESUAI ID HTML
     document.getElementById('ashNameProfile').innerText = profile.name;
     document.getElementById('ashEmail').innerText = email || "";
     document.getElementById('ashRm').innerText = profile.nomor_rm || '-';
     document.getElementById('ashNik').innerText = profile.nik || '-';
+    document.getElementById('ashUmur').innerText = profile.umur ? profile.umur + ' Thn' : '-';
+    document.getElementById('ashAlamat').innerText = profile.alamat || '-';
     document.getElementById('ashBpjs').innerText = profile.nomor_bpjs || '-';
     
     document.getElementById('ashBlood').innerText = profile.blood_type || '-';
-    document.getElementById('ashHeight').innerText = profile.height ? profile.height + ' cm' : '-';
-    document.getElementById('ashWeight').innerText = profile.weight ? profile.weight + ' kg' : '-';
+    document.getElementById('ashHeight').innerText = profile.height && profile.height !== '-' ? profile.height + ' cm' : '-';
+    document.getElementById('ashWeight').innerText = profile.weight && profile.weight !== '-' ? profile.weight + ' kg' : '-';
 
     const initials = profile.name ? profile.name.match(/\b\w/g) || [] : ['P'];
     const avatarText = ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
@@ -236,5 +314,28 @@ async function logoutSession() {
     localStorage.removeItem('mediflow_token');
     localStorage.removeItem('mediflow_refresh');
     localStorage.removeItem('mediflow_role');
-    window.location.href = "../login/index.html"; // Jalur logout diperbaiki
+    window.location.href = "../login/index.html"; 
 }
+
+function togglePanel() {
+    const panel = document.getElementById('rightPanel');
+    panel.classList.toggle('closed'); 
+}
+
+// ====================================================
+// SCRIPT DEEP LINKING (Routing dari Landing Page)
+// ====================================================
+window.addEventListener('load', () => {
+    // Mengecek apakah ada hash di URL (misal: pasien.html#view-jadwal)
+    const hash = window.location.hash.substring(1); 
+    
+    // Jika ada hash dan id tersebut terdaftar sebagai menu
+    if (hash && document.getElementById(hash)) {
+        // Beri jeda sedikit agar DOM dan Supabase termuat sempurna
+        setTimeout(() => {
+            switchView(hash);
+            // Hapus hash dari URL agar terlihat bersih
+            history.replaceState(null, null, ' ');
+        }, 500); 
+    }
+});

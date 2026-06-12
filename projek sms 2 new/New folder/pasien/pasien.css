@@ -15,10 +15,9 @@ body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    /* Path wallpaper diperbaiki menjadi ../wallpaper/rs11.jpg */
     background-image: url('../../wallpaper/rs11.jpg'); 
     background-repeat: repeat;
-    background-size: 900px;
+    background-size: 1600px;
     opacity: 0.35;
     filter: grayscale(1) brightness(1) contrast(1) saturate(0%);
     mix-blend-mode: multiply;
@@ -47,6 +46,7 @@ body::before {
     height: 100vh; 
     box-sizing: border-box; 
     animation: fadeIn 0.5s ease-out;
+    overflow: hidden;
 }
 
 /* === TOMBOL EMERGENCY === */
@@ -82,7 +82,7 @@ body::before {
 .ash-main::-webkit-scrollbar-track { background: transparent; }
 .ash-main::-webkit-scrollbar-thumb { background: #d1e5e5; border-radius: 10px; }
 
-/* 🔥 CARD WELCOME 🔥 */
+/* 🔥 CARD WELCOME & DOKTER 🔥 */
 .ash-card-wel { 
     background: linear-gradient(135deg, #38c8e6, #2ab5d3) !important;
     border-radius: 25px; 
@@ -91,6 +91,25 @@ body::before {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+    position: relative;
+}
+
+.wel-bg-shapes {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden; border-radius: 25px; z-index: 0; pointer-events: none;
+}
+.wel-bg-shapes::before {
+    content: ""; position: absolute; top: -80px; left: -50px;
+    width: 250px; height: 250px; background: rgba(255, 255, 255, 0.12); border-radius: 50%;
+}
+.wel-bg-shapes::after {
+    content: ""; position: absolute; bottom: -120px; right: -50px;
+    width: 350px; height: 350px; background: rgba(255, 255, 255, 0.08); border-radius: 50%;
+}
+
+.wel-text-container {
+    position: relative;
+    z-index: 2;
 }
 
 .btn-outline-light:hover {
@@ -99,8 +118,7 @@ body::before {
     border-color: white !important;
 }
 
-/* --- 🔥 ANIMASI AWAL DOKTER & TANDA TANYA 🔥 --- */
-
+/* Animasi Dokter */
 @keyframes doctorInitialBounce {
     0% { transform: scale(1); }
     40% { transform: scale(1.05); } 
@@ -178,33 +196,111 @@ body::before {
 }
 @keyframes rotateGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-.accordion-button:not(.collapsed) { background-color: transparent; color: #2c3e50; box-shadow: none; }
-.accordion-button:focus { box-shadow: none; }
-.accordion-item { border: none; }
-
 /* === RIGHT PANEL STYLE === */
 .ash-right { 
-    width: 350px; background: white; border-radius: 35px; padding: 25px; box-shadow: -5px 0 20px rgba(0,0,0,0.03); overflow-y: auto; 
+    width: 350px; 
+    background: white; 
+    border-radius: 35px; 
+    padding: 25px; 
+    box-shadow: -5px 0 20px rgba(0,0,0,0.03); 
+    overflow-y: visible;
+    position: relative;
+    transition: margin-right 0.4s ease-in-out, transform 0.4s ease-in-out; 
+    margin-right: 0;
 }
+
+.ash-right.closed {
+    margin-right: -370px;
+}
+
 .ash-right::-webkit-scrollbar { display: none; }
+
+/* 🔥 TOMBOL PANAH BUKA/TUTUP 🔥 */
+.toggle-panel-btn {
+    position: absolute;
+    top: 50%;
+    left: -25px;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 60px;
+    background-color: white;
+    border: none;
+    border-radius: 15px 0 0 15px;
+    box-shadow: -3px 0 5px rgba(0,0,0,0.05);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--mediflow-blue);
+    z-index: 100;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-panel-btn:hover { background-color: #f4f8f8; }
+.toggle-panel-btn i { transition: transform 0.3s ease; }
+.ash-right.closed .toggle-panel-btn i { transform: rotate(180deg); }
+
 
 .kk-tab { 
     background: transparent; border-radius: 12px; padding: 10px; text-align: center; font-size: 0.85rem; font-weight: 600; cursor: pointer; color: #999; flex: 1; transition: 0.3s;
 }
 .kk-tab.active { background: white; color: var(--mediflow-blue); box-shadow: 0 2px 10px rgba(0,0,0,0.05); } 
 
-.btn-teal { background-color: #117a8b; color: white; border:none;} 
-.btn-teal:hover { background-color: #0c5460; color: white; }
+/* REVISI WARNA TOMBOL */
+.btn-teal { background-color: var(--mediflow-blue); color: white; border:none;} 
+.btn-teal:hover { background-color: var(--mediflow-blue-dark); color: white; }
 
 .view-section { animation: fadeInView 0.5s ease-out forwards; }
 @keyframes fadeInView { from { opacity: 0; transform: scale(0.98) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 .d-none { display: none !important; }
 
+/* REVISI WARNA TAB SETTINGS */
 #settings-tabs .nav-link.active { background-color: var(--mediflow-blue) !important; color: white !important; }
 #settings-tabs .nav-link { color: #555; font-weight: 500; }
 #settings-tabs .nav-link:hover:not(.active) { background-color: var(--mediflow-blue-light); color: var(--mediflow-blue); }
 
 .btn-settings-logout { color: #dc3545; background: rgba(220, 53, 69, 0.1); transition: all 0.3s; border: none; }
 .btn-settings-logout:hover { background: #dc3545; color: white; }
-
 .search-input-header:focus { outline: none; box-shadow: none; }
+
+/* === CUSTOM BOOTSTRAP DROPDOWN === */
+.custom-dropdown-btn {
+    background-color: #fff;
+    color: #2c3e50 !important;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.custom-dropdown-btn:hover, .custom-dropdown-btn:focus, .custom-dropdown-btn[aria-expanded="true"] {
+    background-color: #f8fafb !important;
+    border-color: var(--mediflow-blue) !important;
+    box-shadow: 0 0 0 0.2rem rgba(56, 200, 230, 0.25) !important;
+    outline: none;
+}
+
+.custom-dropdown-menu {
+    border: 1px solid rgba(0,0,0,0.05) !important;
+    padding: 8px !important;
+    font-size: 0.9rem;
+}
+
+.custom-dropdown-item {
+    color: #2c3e50;
+    font-weight: 500;
+    padding: 10px 15px;
+    margin-bottom: 2px;
+    transition: all 0.2s ease;
+    border-radius: 8px; 
+}
+
+/* Efek Sorot Menggunakan Warna Tosca */
+.custom-dropdown-item:hover, .custom-dropdown-item:focus {
+    background-color: var(--mediflow-blue-light) !important;
+    color: var(--mediflow-blue) !important;
+}
+
+/* Saat Opsi Aktif (Dipilih) */
+.custom-dropdown-item.active, .custom-dropdown-item:active {
+    background-color: var(--mediflow-blue) !important;
+    color: white !important;
+}

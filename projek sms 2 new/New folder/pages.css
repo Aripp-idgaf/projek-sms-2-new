@@ -1,0 +1,300 @@
+:root {
+    /* Warna Utama: Cyan MediFlow & Biru Gelap Modern */
+    --primary-cyan: #00B4D8; 
+    --primary-blue: #0077B6;
+    --dark-navy: #03045E;
+    --dark-grey: #1A1A1A;
+    --light-grey: #F5F7FA;
+    --white: #FFFFFF;
+    --text-muted: #6C757D;
+    /* Font serif elegan */
+    --font-serif: 'Playfair Display', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body { background-color: var(--white); color: var(--dark-grey); overflow-x: hidden; }
+
+/* Menetapkan font serif elegan secara global pada body */
+body { font-family: var(--font-serif); }
+
+/* Menetapkan font Poppins untuk teks tubuh (paragraf, deskripsi) */
+p, .features li, .text-sm, .cta-text h3, .doc-bottom span, .badge-blue, .badge-white, .step-text, .pricing-card h3, .pricing-card .price span, footer p {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* UTILITY CLASSES */
+.text-cyan { color: var(--primary-cyan); }
+.text-white { color: var(--white); }
+.text-light { color: rgba(255,255,255,0.7); }
+.text-dark { color: var(--dark-grey); }
+.bg-cyan { background-color: var(--primary-cyan); color: var(--white); }
+.bg-light { background-color: var(--light-grey); color: var(--dark-grey); }
+.w-100 { width: 100%; }
+.anim-hover { transition: all 0.3s ease; }
+.anim-hover:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+.hidden-scroll { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.show-scroll { opacity: 1; transform: translateY(0); }
+
+/* =========================================
+   NAVBAR TRANSPARAN & TOMBOL LOGIN
+   ========================================= */
+.navbar-modern {
+    position: absolute; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 30px 8%; z-index: 100;
+}
+.logo { font-size: 24px; font-weight: 700; color: var(--white); display: flex; align-items: center; gap: 8px; }
+.icon-med { color: var(--primary-cyan); }
+
+/* --- PERBAIKAN TOMBOL LOGIN/REGISTER --- */
+.btn-login-outline {
+    background-color: var(--primary-cyan); /* Awalnya putih solid */
+    border: 1.5px solid var(--primary-cyan); /* Border cyan */
+    color: var(--white); /* Teks warna cyan agar kontras di atas putih */
+    padding: 10px 35px; 
+    border-radius: 50px; 
+    text-decoration: none; 
+    font-weight: 600; 
+    font-size: 0.95rem;
+    transition: all 0.4s ease; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Efek Saat Kursor Mendekat (Transparan Blur) */
+.btn-login-outline:hover { 
+    background-color: rgba(255, 255, 255, 0.15); /* Berubah jadi transparan tipis */
+    border: 1.5px solid var(--white); /* Border cyan */
+    color: var(--white); /* Teks berubah jadi putih */
+    backdrop-filter: blur(8px); /* Efek blur/kaca */
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Jika sudah login (menampilkan profil) */
+.btn-login-outline.logged-in { 
+    background-color: var(--primary-cyan); 
+    border-color: var(--primary-cyan); 
+    color: var(--white);
+}
+.btn-login-outline.logged-in:hover {
+    background-color: rgba(0, 180, 216, 0.85); /* Cyan transparan */
+    color: var(--white);
+}
+.btn-profile-img { width: 30px; height: 30px; border-radius: 50%; background: var(--white); color: var(--primary-cyan); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; font-family: 'Poppins', sans-serif; }
+
+
+/* =========================================
+   HERO SECTION (FULL SCREEN 100VH)
+   ========================================= */
+.hero-booking {
+    position: relative; 
+    min-height: 100vh; 
+    background-color: #000; 
+    display: flex; align-items: flex-end;
+    padding: 0 8%;
+    overflow: hidden;
+}
+
+.hero-bg-image {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: right top; 
+    z-index: 1;
+}
+
+.hero-fade-overlay {
+    position: absolute; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    background: linear-gradient(to right, rgba(15, 20, 45, 0.75) 0%, rgba(15, 20, 45, 0.4) 45%, transparent 100%);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    -webkit-mask-image: linear-gradient(to right, black 35%, transparent 70%);
+    mask-image: linear-gradient(to right, black 35%, transparent 70%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hero-content-booking { 
+    position: relative; z-index: 10; max-width: 600px; padding-top: 80px; 
+    padding-bottom: 18vw; 
+}
+.hero-content-booking h1 { font-size: 3rem; color: var(--white); line-height: 1.1; margin-bottom: 20px; font-weight: 700; letter-spacing: -1px; }
+.hero-content-booking p { font-size: 1.1rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 40px; }
+
+.hero-cta-box {
+    background: var(--primary-cyan); border-radius: 50px; padding: 12px 25px;
+    display: flex; justify-content: center; align-items: center; cursor: pointer; color: var(--white); margin-bottom: 40px;
+    width: fit-content; gap: 15px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+.hero-cta-box:hover { 
+    background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.cta-text h3 { font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 0; }
+.cta-btn-circle { 
+    width: 35px; height: 35px; 
+    background: var(--white); color: var(--primary-cyan); 
+    border-radius: 50%; display: flex; justify-content: center; align-items: center; 
+    font-size: 1.2rem; transition: all 0.3s ease;
+}
+.hero-cta-box:hover .cta-btn-circle {
+    background: var(--primary-cyan);
+    color: var(--white);
+}
+
+.hero-trust { display: flex; align-items: center; gap: 15px; color: var(--white); font-size: 0.9rem; }
+.avatars img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); margin-left: -15px; }
+.avatars img:first-child { margin-left: 0; }
+
+.hero-bottom-text {
+    position: absolute;
+    bottom: -2.5vw;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 16vw;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.05); /* Sedikit disamarkan agar elegan */
+    line-height: 1;
+    letter-spacing: -4px;
+    z-index: 5;
+    pointer-events: none;
+    font-family: var(--font-serif);
+}
+
+/* =========================================
+   SECTIONS & GRIDS
+   ========================================= */
+.section-padding { padding: 100px 8%; }
+.section-header-flex { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+.section-header-center { text-align: center; margin-bottom: 50px; max-width: 600px; margin-inline: auto;}
+.section-title { font-size: 2.2rem; color: var(--dark-grey); font-weight: 700; letter-spacing: -0.5px; margin-top: 10px; }
+.section-header-center p { color: var(--text-muted); margin-top: 15px;}
+
+.badge-blue { background: rgba(0, 180, 216, 0.1); color: var(--primary-blue); padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+.badge-white { background: rgba(255,255,255,0.2); color: var(--white); padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+
+.btn-view-all { background: none; border: none; color: var(--primary-blue); font-weight: 600; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', sans-serif; }
+.btn-view-all:hover { color: var(--dark-navy); }
+
+/* GRID 3 COLS */
+.grid-3-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+
+.doc-product-card { background: var(--light-grey); border-radius: 25px; overflow: hidden; }
+.doc-img-wrapper { position: relative; padding: 20px; background: #E8EDF2; text-align: center; }
+.doc-img-wrapper img { width: 100%; height: 250px; object-fit: cover; border-radius: 20px; }
+.doc-status { position: absolute; top: 35px; left: 35px; font-size: 0.75rem; font-weight: 600; padding: 5px 12px; border-radius: 20px; color: var(--white); font-family: 'Poppins', sans-serif; }
+.doc-status.online { background: #2ECC71; }
+.doc-status.offline { background: #E74C3C; }
+
+.doc-info { padding: 25px; background: var(--white); }
+.doc-info h3 { font-size: 1.2rem; margin-bottom: 5px; color: var(--dark-grey); }
+.specialty { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; font-family: 'Poppins', sans-serif;}
+.doc-bottom { display: flex; justify-content: space-between; align-items: center; }
+.rating { font-size: 0.85rem; font-weight: 600; color: var(--dark-grey); }
+.btn-add-circle { width: 40px; height: 40px; border-radius: 50%; background: var(--primary-cyan); color: var(--white); border: none; font-size: 1.2rem; cursor: pointer; transition: 0.3s; }
+.btn-add-circle:hover { background: var(--primary-blue); transform: scale(1.1); }
+.btn-add-circle.disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
+/* =========================================
+   LAYANAN BESAR
+   ========================================= */
+.grid-2-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+.cat-card { border-radius: 30px; overflow: hidden; position: relative; height: 400px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between;}
+.cat-content { padding: 40px; z-index: 2; position: relative; }
+.cat-content h2 { font-size: 2.5rem; line-height: 1.1; margin-bottom: 20px; }
+.cat-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--white); color: var(--primary-cyan); padding: 10px 20px; border-radius: 30px; font-weight: 600; font-size: 0.9rem; font-family: 'Poppins', sans-serif;}
+.cat-btn.btn-dark { background: var(--dark-navy); color: var(--white); }
+.cat-card img { position: absolute; bottom: 0; right: 0; width: 60%; height: 80%; object-fit: cover; border-top-left-radius: 30px; z-index: 1; opacity: 0.9;}
+
+/* =========================================
+   PANDUAN BOOKING
+   ========================================= */
+.guide-split { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.guide-left-box { background: var(--primary-cyan); border-radius: 30px; padding: 60px 50px; color: var(--white); }
+.guide-left-box h2 { font-size: 2.2rem; margin: 20px 0 15px; line-height: 1.2; font-weight: 700;}
+.guide-left-box p { opacity: 0.9; margin-bottom: 40px; line-height: 1.6; }
+.guide-steps { display: flex; flex-direction: column; gap: 20px; }
+.step-item { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.1); padding: 15px 25px; border-radius: 15px; }
+.step-item.active { background: var(--white); color: var(--primary-cyan); }
+.step-num { font-weight: 700; font-size: 1.2rem; font-family: 'Poppins', sans-serif;}
+.step-text { font-weight: 600; }
+
+.guide-right-img { position: relative; height: 100%; border-radius: 30px; overflow: hidden;}
+.guide-right-img img { width: 100%; height: 100%; min-height: 500px; object-fit: cover; border-radius: 30px; }
+.floating-notif { position: absolute; bottom: 40px; left: -20px; background: var(--white); padding: 15px 25px; border-radius: 20px; font-weight: 600; box-shadow: 0 20px 40px rgba(0,0,0,0.15); display: flex; gap: 10px; align-items: center; color: var(--dark-grey); font-family: 'Poppins', sans-serif;}
+.floating-notif i { color: #2ECC71; font-size: 1.2rem; }
+
+@keyframes floatAnim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.anim-float { animation: floatAnim 4s ease-in-out infinite; }
+
+/* =========================================
+   HARGA/PAKET MCU
+   ========================================= */
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; align-items: center; }
+.pricing-card { background: var(--white); border: 2px solid var(--light-grey); border-radius: 30px; padding: 40px 30px; text-align: center; }
+.pricing-card.highlighted { background: var(--primary-cyan); border-color: var(--primary-cyan); color: var(--white); padding: 60px 30px; transform: scale(1.05); }
+.pricing-card h3 { font-size: 1.5rem; margin: 20px 0 10px; font-weight: 700;}
+.pricing-card .price { font-size: 2rem; margin-bottom: 30px; font-weight: 600;}
+.pricing-card .features { list-style: none; text-align: left; margin-bottom: 40px; }
+.pricing-card .features li { margin-bottom: 15px; font-size: 0.95rem; display: flex; gap: 10px; align-items: center; color: var(--dark-grey); }
+.pricing-card.highlighted .features li { color: rgba(255,255,255,0.9); }
+.pricing-card .features i { color: var(--primary-cyan); font-weight: bold; }
+.pricing-card.highlighted .features i { color: var(--white); }
+
+.btn-outline-blue { background: transparent; border: 2px solid var(--primary-cyan); color: var(--primary-cyan); padding: 12px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: 0.3s; font-family: 'Poppins', sans-serif;}
+.btn-outline-blue:hover { background: var(--primary-cyan); color: var(--white); }
+.btn-white { background: var(--white); border: none; color: var(--primary-cyan); padding: 14px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: 0.3s; font-family: 'Poppins', sans-serif;}
+.btn-white:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
+
+/* =========================================
+   FOOTER BANNER BESAR
+   ========================================= */
+.footer-hero { background: var(--dark-navy); color: var(--white); }
+.footer-hero-content { display: flex; justify-content: space-between; align-items: center; padding: 80px 8%; border-bottom: 1px solid rgba(255,255,255,0.1); gap: 40px;}
+.fh-text { max-width: 500px; }
+.fh-text h2 { font-size: 3rem; line-height: 1.1; margin-bottom: 20px; font-weight: 700;}
+.fh-text p { font-size: 1rem; opacity: 0.8; margin-bottom: 40px; line-height: 1.6; }
+.fh-img img { width: 350px; height: 350px; object-fit: cover; border-radius: 30px; }
+
+.footer-bottom-links { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding: 60px 8% 40px; }
+.f-col h4 { font-size: 1.2rem; margin-bottom: 20px; font-weight: 600; }
+.f-col a { display: block; color: rgba(255,255,255,0.7); text-decoration: none; margin-bottom: 15px; transition: 0.3s; font-family: 'Poppins', sans-serif;}
+.f-col a:hover { color: var(--primary-cyan); }
+.text-sm { font-size: 0.9rem; opacity: 0.7; line-height: 1.6; }
+.socials { display: flex; gap: 15px; }
+.socials a { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; justify-content: center; align-items: center; color: var(--white); font-size: 1.2rem; }
+.socials a:hover { background: var(--primary-cyan); transform: translateY(-3px); }
+.f-copyright { text-align: center; padding: 20px 8%; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; opacity: 0.6; font-family: 'Poppins', sans-serif;}
+
+/* RESPONSIVE CSS */
+@media (max-width: 992px) {
+    .grid-3-cols, .grid-2-cols, .guide-split, .pricing-grid, .footer-hero-content { grid-template-columns: 1fr; flex-direction: column; text-align: center; }
+    .footer-bottom-links { grid-template-columns: 1fr 1fr; }
+    
+    .hero-bg-image { width: 100%; object-position: center top; }
+    .hero-fade-overlay {
+        background: linear-gradient(to bottom, rgba(15, 20, 45, 0.8) 40%, rgba(15, 20, 45, 0.5) 65%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 45%, transparent 80%);
+        mask-image: linear-gradient(to bottom, black 45%, transparent 80%);
+    }
+
+    .hero-content-booking { padding-bottom: 25vw; padding-top: 100px; }
+    .hero-bottom-text { font-size: 20vw; bottom: 0; letter-spacing: -2px; }
+    .hero-content-booking h1 { font-size: 2.5rem; }
+
+    .cat-card img { position: relative; width: 100%; height: 200px; border-radius: 0; }
+    .guide-left-box { padding: 40px 30px; }
+    .pricing-card.highlighted { transform: scale(1); }
+}

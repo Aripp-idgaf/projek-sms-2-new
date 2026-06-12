@@ -6,6 +6,9 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// ==========================================
+// TOGGLE FORM LOGIN & REGISTER
+// ==========================================
 function toggleForms(formType) {
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
@@ -25,23 +28,41 @@ function toggleForms(formType) {
 }
 
 // ==========================================
-// PROSES REGISTRASI 
+// PROSES REGISTRASI (Tanpa Alert)
 // ==========================================
 document.getElementById('btnRegister').addEventListener('click', async function(e) {
     e.preventDefault(); 
 
+    // Mengambil semua value dari form registrasi
     const name = document.getElementById("regName").value.trim();
+    const nik = document.getElementById("regNik").value.trim();
+    const umur = document.getElementById("regUmur").value.trim();
+    const golDarah = document.getElementById("regGolDarah").value; // Opsional
+    const alamat = document.getElementById("regAlamat").value.trim();
     const email = document.getElementById("regEmail").value.trim();
     const password = document.getElementById("regPassword").value.trim();
     const termsChecked = document.getElementById("regTerms").checked;
     const btn = document.getElementById("btnRegister");
 
-    if (!name || !email || !password) return alert("❌ Mohon isi semua kolom data!");
-    if (password.length < 6) return alert("❌ Kata sandi minimal 6 karakter.");
-    if (!termsChecked) return alert("❌ Centang persetujuan terlebih dahulu.");
+    // Validasi data (Mengubah teks tombol, bukan alert)
+    if (!name || !nik || !umur || !alamat || !email || !password) {
+        btn.innerText = "Isi Semua Kolom!";
+        setTimeout(() => { btn.innerText = "Buat Akun Pasien"; }, 2000);
+        return;
+    }
+    if (password.length < 6) {
+        btn.innerText = "Sandi Min. 6 Karakter!";
+        setTimeout(() => { btn.innerText = "Buat Akun Pasien"; }, 2000);
+        return;
+    }
+    if (!termsChecked) {
+        btn.innerText = "Centang Persetujuan!";
+        setTimeout(() => { btn.innerText = "Buat Akun Pasien"; }, 2000);
+        return;
+    }
 
-    const originalText = btn.innerText;
-    btn.innerText = "Memproses..."; btn.disabled = true;
+    btn.innerText = "Memproses Data..."; 
+    btn.disabled = true;
 
     try {
         const response = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
@@ -53,29 +74,62 @@ document.getElementById('btnRegister').addEventListener('click', async function(
             body: JSON.stringify({ 
                 email: email, 
                 password: password,
-                data: { full_name: name }
+                data: { 
+                    full_name: name,
+                    nik: nik,
+                    umur: parseInt(umur),
+                    gol_darah: golDarah || '-',
+                    alamat: alamat
+                }
             })
         });
 
         const result = await response.json();
 
         if (response.ok) {
-            alert("✅ Berhasil Mendaftar! Silakan masuk menggunakan email dan sandi barumu.");
-            toggleForms('login');
-            document.getElementById('loginEmail').value = email; 
-            document.getElementById('regPassword').value = '';
+            // Teks tombol berubah menjadi sukses
+            btn.innerText = "Pendaftaran Berhasil!";
+            btn.style.background = "linear-gradient(95deg, #28a745, #20c997)"; // Opsional: Ubah warna hijau
+            
+            setTimeout(() => {
+                // Reset warna tombol
+                btn.style.background = "";
+                
+                // Reset form & pindah ke mode login
+                toggleForms('login');
+                document.getElementById('loginEmail').value = email; 
+                
+                // Clear inputs form registrasi
+                document.getElementById("regName").value = '';
+                document.getElementById("regNik").value = '';
+                document.getElementById("regUmur").value = '';
+                document.getElementById("regGolDarah").value = '';
+                document.getElementById("regAlamat").value = '';
+                document.getElementById("regEmail").value = '';
+                document.getElementById('regPassword').value = '';
+                
+                // Kembalikan tombol ke semula
+                btn.innerText = "Buat Akun Pasien";
+                btn.disabled = false;
+            }, 1500); // Tunggu 1.5 detik agar user sempat membaca tulisan "Berhasil"
+            return;
         } else {
-            alert("❌ Registrasi Gagal: " + (result.msg || result.message || "Email sudah terdaftar."));
+            btn.innerText = "Email Sudah Terdaftar!";
         }
     } catch (error) {
-        alert("🚨 Gagal menghubungi server Supabase.");
+        btn.innerText = "Gagal: Server Error!";
     } finally {
-        btn.innerText = originalText; btn.disabled = false;
+        setTimeout(() => {
+            if(btn.innerText.includes("Sudah Terdaftar") || btn.innerText.includes("Gagal")) {
+                btn.innerText = "Buat Akun Pasien"; 
+                btn.disabled = false;
+            }
+        }, 3000);
     }
 });
 
 // ==========================================
-// PROSES LOGIN (UX Interaktif - Tanpa Alert)
+// PROSES LOGIN (Tanpa Alert)
 // ==========================================
 document.getElementById('btnLogin').addEventListener('click', async function(e) {
     e.preventDefault(); 
@@ -116,14 +170,15 @@ document.getElementById('btnLogin').addEventListener('click', async function(e) 
             localStorage.setItem('mediflow_refresh', data.refresh_token); 
             localStorage.setItem('mediflow_role', role);
 
-            // Path redirect sudah diperbaiki
             if (role === "pasien") {
                 window.location.href = "../pasien/dashboard.pasien.html";
             } else if (role === "dokter") {
                 window.location.href = "../dokter/dashboard.dokter.html";
             } else {
                 window.location.href = "../admin/dashboard.admin.html";
-            }x
+            }
+        } else {
+            btn.innerText = "Gagal: Email/Sandi Salah!";
         }
     } catch (error) {
         btn.innerText = "Gagal: Server Error!";
@@ -140,6 +195,7 @@ document.getElementById('btnLogin').addEventListener('click', async function(e) 
 // ==========================================
 // PROSES LUPA KATA SANDI
 // ==========================================
+// (Tetap menggunakan prompt karena ini butuh input email secara dinamis)
 async function bukaModalLupaSandi() {
     const emailReset = prompt("Masukkan alamat email Anda yang terdaftar untuk mereset kata sandi:");
     if (emailReset) {
@@ -167,11 +223,9 @@ async function bukaModalLupaSandi() {
 // ==========================================
 // SLIDER LOGIKA (ANIMASI GESER INFINITE LOOP)
 // ==========================================
-// Variabel dideklarasikan HANYA 1 KALI di sini.
 const sliderTrack = document.getElementById('slider-track');
 
 if (sliderTrack) {
-    // Path gambar disesuaikan agar mengambil folder wallpaper 
     const images = [
         "../../wallpaper/rs1.jpg", 
         "../../wallpaper/rs2.jpg", 

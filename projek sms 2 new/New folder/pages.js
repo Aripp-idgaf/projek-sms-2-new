@@ -16,11 +16,11 @@ function checkAuthStatus() {
             <div class="btn-profile-img">${initial}</div> 
             ${userName}
         `;
-        authBtn.href = "login/pasien/dashboard.pasien.html"; 
+        authBtn.href = "./pasien/dashboard.pasien.html"; 
         authBtn.classList.add('logged-in'); 
     } else {
         authBtn.innerHTML = "Login / Register";
-        authBtn.href = "login/index.html";
+        authBtn.href = "./login/index.html";
         authBtn.classList.remove('logged-in');
     }
 }
@@ -31,22 +31,28 @@ function aksesLayanan(menuId) {
     const role = localStorage.getItem('mediflow_role');
     
     if (token && role === 'pasien') {
-        window.location.href = `login/pasien/dashboard.pasien.html#${menuId}`;
+        window.location.href = `./pasien/dashboard.pasien.html#${menuId}`;
     } else {
-        window.location.href = "login/index.html";
+        window.location.href = "./login/index.html";
     }
 }
 
-// 3. ANIMASI SAAT SCROLL
+// 3. ANIMASI SAAT SCROLL (SANGAT PENTING UNTUK EFEK TEKS TERBELAH LAMBAT)
+const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.15 
+};
+
 const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
         if (entry.isIntersecting) {
-            entry.target.classList.add('show-scroll');
+            entry.target.classList.add('active');
         }
     });
-}, { threshold: 0.15 });
+}, observerOptions);
 
-const hiddenElements = document.querySelectorAll('.hidden-scroll');
+const hiddenElements = document.querySelectorAll('.reveal-up');
 hiddenElements.forEach((el) => {
     observer.observe(el);
 });

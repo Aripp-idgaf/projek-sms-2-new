@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediFlow - Booking Jadwal Dokter & Medical Check-Up</title>
-    <link rel="stylesheet" href="style.css">
+    <title>MediFlow - Layanan Kesehatan Premium</title>
+    
+    <link rel="stylesheet" href="pages.css">
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
@@ -15,242 +18,117 @@
             <i class="bi bi-heart-pulse-fill icon-med"></i> MediFlow
         </div>
         <div class="nav-actions">
-            <a href="login/index.html" id="navAuthBtn" class="btn-login-outline">Login / Register</a>
+            <a href="./login/index.html" id="navAuthBtn" class="btn-login-outline">Login / Register</a>
         </div>
     </nav>
 
-    <header id="beranda" class="hero-booking hidden-scroll">
-        
-        <img src="../wallpaper/rs17.jpg" alt="Dokter Background" class="hero-bg-image">
-        
-        <div class="hero-fade-overlay"></div>
+    <header id="beranda" class="hero-booking">
+        <div class="hero-bg-wrapper">
+            <img src="../wallpaper/rs17.jpg" alt="Dokter Background" class="hero-bg-image">
+            <div class="hero-fade-overlay"></div>
+        </div>
 
-        <div class="hero-content-booking">
-            <h1>Booking Jadwal Dokter Lebih Cepat & Pasti</h1>
+        <div class="hero-content-booking reveal-up">
+            <h1>Booking Jadwal<br>Dokter Lebih Cepat<br>& Pasti</h1>
             <p>Atur jadwal konsultasi, pilih dokter spesialis, dan dapatkan nomor antrean secara online. Semudah memesan tiket bioskop.</p>
             
-            <div class="hero-cta-box anim-hover" onclick="aksesLayanan('view-jadwal')">
+            <div class="hero-cta-box" onclick="aksesLayanan('view-jadwal')">
                 <div class="cta-text">
                     <h3>Cari Jadwal Dokter Spesialis</h3>
                 </div>
                 <div class="cta-btn-circle"><i class="bi bi-arrow-right"></i></div>
             </div>
-
-            <div class="hero-trust">
-                <div class="avatars">
-                    <img src="../wallpaper/rs18.jpg" alt="User">
-                    <img src="../wallpaper/rs19.jpg" alt="User">
-                </div>
-                <span>Dipercaya 100k+ Pasien Aktif</span>
-            </div>
         </div>
+
+        <div class="hero-bottom-text reveal-up" style="transition-delay: 0.3s;">MEDIFLOW</div>
     </header>
 
-    <section class="section-padding hidden-scroll">
-        <div class="section-header-flex">
-            <div>
-                <span class="badge-blue"><i class="bi bi-star-fill"></i> Populer</span>
-                <h2 class="section-title">Spesialis Yang Tersedia Saat Ini</h2>
-            </div>
-            <button class="btn-view-all" onclick="aksesLayanan('view-jadwal')">Lihat Semua <i class="bi bi-arrow-right"></i></button>
+    <section id="statement" class="statement-section">
+        <div class="statement-content">
+            <h2 class="reveal-up split-heading">
+                <span class="split-line">
+                    <span class="text-left">KAMI</span>
+                    <span class="text-center-hidden">DEDIKASI KAMI</span>
+                    <span class="text-right">MEMBERIKAN</span>
+                </span><br>
+                KEMUDAHAN AKSES KESEHATAN<br>UNTUK ANDA DAN KELUARGA.
+            </h2>
+            <p class="reveal-up" style="transition-delay: 0.2s;">
+                MediFlow adalah platform reservasi kesehatan terpadu. Kami menyediakan layanan 
+                penjadwalan pintar untuk memastikan Anda mendapatkan penanganan medis yang presisi, 
+                tanpa perlu membuang waktu berharga Anda di ruang tunggu.
+            </p>
+            <a href="#layanan" class="read-more-link reveal-up" style="transition-delay: 0.4s;">Selengkapnya</a>
+        </div>
+    </section>
+
+    <section id="layanan" class="lunaria-services">
+        <div class="lunaria-header reveal-up">
+            <h2>LAYANAN KAMI</h2>
         </div>
 
-        <div class="grid-3-cols">
-            <div class="doc-product-card anim-hover">
-                <div class="doc-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=400&q=80" alt="Dr. Cae Soo Bin">
-                    <span class="doc-status online">Tersedia Hari Ini</span>
+        <div class="lunaria-grid">
+            <div class="lunaria-card reveal-up" style="transition-delay: 0.1s;" onclick="aksesLayanan('view-jadwal')">
+                <div class="l-img-wrapper">
+                    <img src="../wallpaper/rs4.jpg" alt="Jadwal Dokter">
+                    <div class="l-card-icon"><i class="bi bi-calendar-check"></i></div>
                 </div>
-                <div class="doc-info">
-                    <h3>Dr. Cae Soo Bin</h3>
-                    <p class="specialty">Spesialis Penyakit Dalam</p>
-                    <div class="doc-bottom">
-                        <span class="rating">⭐ 4.9 (120 Review)</span>
-                        <button class="btn-add-circle" onclick="aksesLayanan('view-jadwal')"><i class="bi bi-plus"></i></button>
-                    </div>
+                <div class="l-card-info">
+                    <h3>JADWAL DOKTER</h3>
+                    <span>Pilih spesialis & atur waktu temu.</span>
                 </div>
             </div>
 
-            <div class="doc-product-card anim-hover">
-                <div class="doc-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1594824416928-1111165cb76e?auto=format&fit=crop&w=400&q=80" alt="Dr. Ashley Black">
-                    <span class="doc-status offline">Penuh</span>
+            <div class="lunaria-card reveal-up" style="transition-delay: 0.3s;" onclick="aksesLayanan('view-jadwal')">
+                <div class="l-img-wrapper">
+                    <img src="../wallpaper/rs1.jpg" alt="Daftar Online">
+                    <div class="l-card-icon"><i class="bi bi-laptop"></i></div>
                 </div>
-                <div class="doc-info">
-                    <h3>Dr. Ashley Black</h3>
-                    <p class="specialty">Spesialis Saraf</p>
-                    <div class="doc-bottom">
-                        <span class="rating">⭐ 4.8 (85 Review)</span>
-                        <button class="btn-add-circle disabled"><i class="bi bi-plus"></i></button>
-                    </div>
+                <div class="l-card-info">
+                    <h3>DAFTAR ONLINE</h3>
+                    <span>Ambil nomor antrean dari rumah.</span>
                 </div>
             </div>
 
-            <div class="doc-product-card anim-hover">
-                <div class="doc-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80" alt="Dr. John Doe">
-                    <span class="doc-status online">Tersedia Besok</span>
+            <div class="lunaria-card reveal-up" style="transition-delay: 0.5s;" onclick="aksesLayanan('view-kamar')">
+                <div class="l-img-wrapper">
+                    <img src="../wallpaper/rs19.jpg" alt="Kamar Rawat">
+                    <div class="l-card-icon"><i class="bi bi-hospital"></i></div>
                 </div>
-                <div class="doc-info">
-                    <h3>Dr. John Doe</h3>
-                    <p class="specialty">Spesialis Ortopedi</p>
-                    <div class="doc-bottom">
-                        <span class="rating">⭐ 5.0 (210 Review)</span>
-                        <button class="btn-add-circle" onclick="aksesLayanan('view-jadwal')"><i class="bi bi-plus"></i></button>
-                    </div>
+                <div class="l-card-info">
+                    <h3>INFORMASI KAMAR</h3>
+                    <span>Cek ketersediaan tempat tidur RS.</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section-padding hidden-scroll">
-        <div class="section-header-flex">
-            <h2 class="section-title">Pilih Kebutuhan Anda</h2>
-            <button class="btn-view-all" onclick="aksesLayanan('view-home')">Dashboard <i class="bi bi-arrow-right"></i></button>
-        </div>
-
-        <div class="grid-2-cols category-cards">
-            <div class="cat-card bg-cyan anim-hover" onclick="aksesLayanan('view-jadwal')">
-                <div class="cat-content">
-                    <h2>Daftar<br>Online</h2>
-                    <span class="cat-btn">Booking Sekarang <i class="bi bi-arrow-up-right"></i></span>
-                </div>
-                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=500&q=80" alt="Booking">
-            </div>
-
-            <div class="cat-card bg-light anim-hover" onclick="aksesLayanan('view-kamar')">
-                <div class="cat-content">
-                    <h2 class="text-dark">Informasi<br>Kamar</h2>
-                    <span class="cat-btn btn-dark">Cek Ketersediaan <i class="bi bi-arrow-up-right"></i></span>
-                </div>
-                <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=500&q=80" alt="Kamar">
-            </div>
-        </div>
-    </section>
-
-    <section class="section-padding hidden-scroll">
-        <div class="guide-split">
-            <div class="guide-left-box">
-                <span class="badge-white">Proses Cepat</span>
-                <h2>Atur Jadwal Konsultasi Anda Tanpa Ribet</h2>
-                <p>Ucapkan selamat tinggal pada antrean panjang di ruang tunggu rumah sakit. Kendali penuh di tangan Anda.</p>
-                
-                <div class="guide-steps">
-                    <div class="step-item active">
-                        <div class="step-num">1</div>
-                        <div class="step-text">Pilih Spesialis & Dokter</div>
-                    </div>
-                    <div class="step-item">
-                        <div class="step-num">2</div>
-                        <div class="step-text">Tentukan Hari & Jam</div>
-                    </div>
-                    <div class="step-item">
-                        <div class="step-num">3</div>
-                        <div class="step-text">Dapatkan Tiket Antrean</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="guide-right-img">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Mobile Booking">
-                <div class="floating-notif anim-float">
-                    <i class="bi bi-check-circle-fill"></i> Booking #A-12 Berhasil
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-padding hidden-scroll">
-        <div class="section-header-center">
-            <h2 class="section-title">Paket Medical Check-Up</h2>
-            <p>Pencegahan lebih baik daripada mengobati. Pantau kondisi tubuh Anda dengan paket pemeriksaan menyeluruh dari spesialis kami.</p>
-        </div>
-
-        <div class="pricing-grid">
-            <div class="pricing-card anim-hover">
-                <span class="badge-blue">Pemeriksaan Dasar</span>
-                <h3>Paket Silver</h3>
-                <h4 class="price">Rp 450.000</h4>
-                <ul class="features">
-                    <li><i class="bi bi-check2"></i> Cek Darah Lengkap</li>
-                    <li><i class="bi bi-check2"></i> Gula Darah & Kolesterol</li>
-                    <li><i class="bi bi-check2"></i> Cek Asam Urat & Urine</li>
-                    <li><i class="bi bi-check2"></i> Konsultasi Dokter Umum</li>
-                </ul>
-                <button class="btn-outline-blue w-100" onclick="aksesLayanan('view-jadwal')">Pilih Paket</button>
-            </div>
-
-            <div class="pricing-card highlighted anim-hover">
-                <span class="badge-white">Rekomendasi Kami</span>
-                <h3>Paket Executive</h3>
-                <h4 class="price text-white">Rp 1.250.000</h4>
-                <ul class="features text-white">
-                    <li><i class="bi bi-check2"></i> Semua Layanan Silver</li>
-                    <li><i class="bi bi-check2"></i> Rekam Jantung (EKG)</li>
-                    <li><i class="bi bi-check2"></i> Rontgen Dada (Thorax)</li>
-                    <li><i class="bi bi-check2"></i> Konsultasi Dokter Spesialis</li>
-                </ul>
-                <button class="btn-white w-100" onclick="aksesLayanan('view-jadwal')">Pilih Paket</button>
-            </div>
-
-            <div class="pricing-card anim-hover">
-                <span class="badge-blue">Lengkap & Detail</span>
-                <h3>Paket Gold</h3>
-                <h4 class="price">Rp 2.850.000</h4>
-                <ul class="features">
-                    <li><i class="bi bi-check2"></i> Semua Layanan Executive</li>
-                    <li><i class="bi bi-check2"></i> USG Abdomen Total</li>
-                    <li><i class="bi bi-check2"></i> Tes Fungsi Hati & Ginjal</li>
-                    <li><i class="bi bi-check2"></i> Tes Treadmill Jantung</li>
-                </ul>
-                <button class="btn-outline-blue w-100" onclick="aksesLayanan('view-jadwal')">Pilih Paket</button>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer-hero">
+    <footer class="footer-hero" style="background-color: #121212;">
         <div class="footer-hero-content">
-            <div class="fh-text">
-                <h2>Pengalaman Berobat<br>Yang Lebih Baik</h2>
-                <p>Gabung bersama ribuan pasien lainnya yang telah merasakan kemudahan mengatur jadwal kesehatan di ujung jari.</p>
-                <button class="btn-white" onclick="aksesLayanan('view-home')">Akses Dashboard Anda <i class="bi bi-arrow-right"></i></button>
-            </div>
-            <div class="fh-img">
-                <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=600&q=80" alt="Dokter Senyum">
+            <div class="fh-text reveal-up">
+                <h2>Kesehatan Anda,<br>Prioritas Kami.</h2>
+                <button class="btn-white mt-4" onclick="aksesLayanan('view-home')" style="border-radius: 50px; padding: 15px 30px; font-weight: 600;">Akses Dashboard <i class="bi bi-arrow-right"></i></button>
             </div>
         </div>
         
-        <div class="footer-bottom-links">
+        <div class="footer-bottom-links reveal-up">
             <div class="f-col">
-                <h4>MediFlow</h4>
-                <p class="text-sm">Platform reservasi dan manajemen klinik digital terpercaya.</p>
+                <h4 style="font-size: 1.5rem; color: #fff;">MediFlow.</h4>
+                <p class="text-sm">Platform reservasi dan manajemen klinik digital.</p>
             </div>
             <div class="f-col">
                 <h4>Perusahaan</h4>
                 <a href="#">Tentang Kami</a>
                 <a href="#">Karir</a>
-                <a href="#">Mitra Rumah Sakit</a>
             </div>
             <div class="f-col">
                 <h4>Bantuan</h4>
                 <a href="#">Cara Booking</a>
-                <a href="#">Syarat & Ketentuan</a>
                 <a href="#">Integrasi BPJS</a>
             </div>
-            <div class="f-col">
-                <h4>Media Sosial</h4>
-                <div class="socials">
-                    <a href="#"><i class="bi bi-instagram"></i></a>
-                    <a href="#"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#"><i class="bi bi-facebook"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="f-copyright">
-            <p>© 2026 MediFlow. Hak Cipta Dilindungi.</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="pages.js?v=2"></script>
 </body>
 </html>

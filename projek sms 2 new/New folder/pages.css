@@ -18,7 +18,7 @@ body { background-color: var(--white); color: var(--dark-grey); overflow-x: hidd
 
 h1, h2, h3 { font-family: var(--font-sans); }
 
-/* UTILITY CLASSES & ANIMASI MUNCUL */
+/* UTILITY CLASSES */
 .text-cyan { color: var(--primary-cyan); }
 .text-center { text-align: center; }
 .mt-4 { margin-top: 1.5rem; }
@@ -33,14 +33,52 @@ h1, h2, h3 { font-family: var(--font-sans); }
     transform: translateY(0); 
 }
 
+/* =========================================================
+   TOP BAR KONTAK RUMAH SAKIT (TRANSPARAN BLUR)
+   ========================================================= */
+.top-bar {
+    background-color: rgba(255, 255, 255, 0.1); /* Background transparan */
+    backdrop-filter: blur(10px); /* Efek blur kaca */
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    padding: 8px 8%;
+    font-size: 0.85rem;
+    font-weight: 500;
+    z-index: 101; 
+    position: absolute; /* Menimpa background landing page */
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.top-bar-content {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 25px;
+}
+
+.tb-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tb-item i {
+    font-size: 1rem;
+}
+
 /* NAVBAR */
 .navbar-modern {
-    position: absolute; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 30px 8%; z-index: 100;
+    position: absolute; top: 45px; /* Diturunkan karena top-bar transparan menempati atas */
+    left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; z-index: 100;
 }
 .logo { font-size: 26px; font-weight: 800; font-family: var(--font-sans); color: var(--white); display: flex; align-items: center; gap: 8px; letter-spacing: -1px;}
 .icon-med { color: var(--primary-cyan); font-size: 22px; }
 
-/* TOMBOL LOGIN */
+/* =========================================================
+   TOMBOL LOGIN (DIPERBAIKI AGAR HOVER KEMBALI BLUR) 
+   ========================================================= */
 .btn-login-outline {
     background-color: var(--primary-cyan); 
     border: 1.5px solid var(--primary-cyan); 
@@ -51,12 +89,22 @@ h1, h2, h3 { font-family: var(--font-sans); }
     font-weight: 600; 
     font-size: 0.95rem; 
     transition: all 0.4s ease; 
-    display: flex; 
+    display: inline-flex; 
     align-items: center; 
-    gap: 8px; 
+    justify-content: center; 
+    text-align: center;
+    gap: 10px; 
 }
+
+/* Memperbesar ukuran ikon profil di dalam tombol */
+.btn-login-outline::before {
+    content: "\F4E1"; 
+    font-family: bootstrap-icons;
+    font-size: 1.2rem;
+}
+
 .btn-login-outline:hover { 
-    background-color: rgba(255, 255, 255, 0.15); 
+    background-color: rgba(255, 255, 255, 0.15); /* Kembali ke transparan/blur */
     backdrop-filter: blur(10px); 
     -webkit-backdrop-filter: blur(10px);
     border-color: var(--white); 
@@ -85,28 +133,27 @@ h1, h2, h3 { font-family: var(--font-sans); }
 }
 .hero-content-booking { position: relative; z-index: 10; max-width: 650px; }
 
-/* ==============================================================
-   INI FONT HERO YANG SUDAH DIKEMBALIKAN SESUAI GAMBAR 2 (POPPINS)
-   ============================================================== */
 .hero-content-booking h1 { 
-    font-family: var(--font-sans); /* Kembali pakai Poppins yang tegas */
+    font-family: var(--font-sans); 
     font-size: 4.5rem; 
     color: var(--white); 
     line-height: 1.1; 
     margin-bottom: 25px; 
-    font-weight: 800; /* Tebal sesuai gambar 2 */
-    letter-spacing: -1px; /* Jarak pas, tidak menumpuk */
+    font-weight: 800; 
+    letter-spacing: -1px; 
 }
 .hero-content-booking p { 
     font-size: 1.1rem; color: rgba(255, 255, 255, 0.85); line-height: 1.7; margin-bottom: 40px; 
 }
 
-/* TOMBOL CTA JADWAL */
+/* =========================================================
+   TOMBOL CTA JADWAL DOKTER SPESIALIS & TRUST BADGE 
+   ========================================================= */
 .hero-cta-box {
     background: var(--primary-cyan); 
     border: 1px solid var(--primary-cyan);
     border-radius: 50px; 
-    padding: 8px 12px 8px 25px; 
+    padding: 10px 10px 10px 30px; 
     display: inline-flex; align-items: center; cursor: pointer; color: var(--white); 
     gap: 20px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -117,15 +164,34 @@ h1, h2, h3 { font-family: var(--font-sans); }
     border-color: var(--white);
     transform: translateY(-3px);
 }
+
+.cta-text { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
 .cta-text h3 { font-size: 0.95rem; font-weight: 600; margin: 0; letter-spacing: 0.5px;}
+.cta-sub { font-size: 0.8rem; color: rgba(255,255,255,0.9); margin-top: 3px; font-weight: 400; }
+
 .cta-btn-circle { 
-    width: 40px; height: 40px; background: var(--white); color: var(--primary-cyan); 
+    width: 42px; height: 42px; background: var(--white); color: var(--primary-cyan); 
     border-radius: 50%; display: flex; justify-content: center; align-items: center; 
-    font-size: 1.2rem; transition: all 0.3s ease;
+    font-size: 1.3rem; transition: transform 0.3s ease;
 }
-.hero-cta-box:hover .cta-btn-circle { transform: translateX(3px); }
+.hero-cta-box:hover .cta-btn-circle i { transform: translateX(3px); transition: transform 0.3s ease;}
 
+/* TRUST BADGE ICON PROFIL */
+.trust-badge { display: flex; align-items: center; gap: 12px; margin-top: 30px; }
+.avatars { display: flex; }
+.avatars img {
+    width: 35px; height: 35px; border-radius: 50%; border: 2px solid #000;
+    margin-left: -12px; object-fit: cover;
+}
+.avatars img:first-child { margin-left: 0; }
+.trust-text { color: rgba(255, 255, 255, 0.85); font-size: 0.9rem; font-weight: 500; }
 
+.hero-bottom-text {
+    position: absolute; bottom: -4vw; left: 0; width: 100%; text-align: center;
+    font-size: 18vw; font-weight: 900; color: rgba(255, 255, 255, 0.05); 
+    line-height: 1; letter-spacing: -8px; z-index: 5; pointer-events: none;
+    font-family: var(--font-sans);
+}
 
 /* =========================================
    STATEMENT SECTION & BINGKAI L-SHAPED (U PUTUS)
@@ -138,87 +204,55 @@ h1, h2, h3 { font-family: var(--font-sans); }
 }
 .statement-content { max-width: 900px; }
 
-/* Teks animasi pakai Sans (Poppins) tebal */
 .statement-content h2 {
-    font-size: 4rem; 
-    color: var(--dark-grey);
-    line-height: 1.05;
-    margin-bottom: 40px;
-    letter-spacing: -2px; 
-    font-weight: 800; 
-    font-family: var(--font-sans);
+    font-size: 4rem; color: var(--dark-grey); line-height: 1.05; margin-bottom: 40px;
+    letter-spacing: -2px; font-weight: 800; font-family: var(--font-sans);
 }
 
 /* ANIMASI TERBELAH DENGAN BINGKAI L (U Putus) */
-.split-line {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
+.split-line { display: inline-flex; align-items: center; justify-content: center; }
 
 .text-center-hidden {
-    display: inline-block;
-    max-width: 0; 
-    opacity: 0;
-    overflow: hidden;
-    font-size: 1.1rem; 
-    font-weight: 600;
-    letter-spacing: 2px;
-    white-space: nowrap;
-    margin: 0;
-    vertical-align: middle;
-    font-family: var(--font-sans); 
-    
-    /* Kecepatan Super Lambat 4 Detik */
-    transition: max-width 4s cubic-bezier(0.16, 1, 0.3, 1), 
-                opacity 3s ease-in-out, 
-                margin 4s cubic-bezier(0.16, 1, 0.3, 1);
-    
-    position: relative; 
-    padding: 10px 15px; 
-    color: var(--dark-grey); 
+    display: inline-block; max-width: 0; opacity: 0; overflow: hidden; font-size: 1.1rem; 
+    font-weight: 600; letter-spacing: 2px; white-space: nowrap; margin: 0; vertical-align: middle; font-family: var(--font-sans); 
+    transition: max-width 4s cubic-bezier(0.16, 1, 0.3, 1), opacity 3s ease-in-out, margin 4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative; padding: 10px 15px; color: var(--dark-grey); 
 }
 
-/* Bingkai Kiri (TL & BL) */
+/* Bingkai Kiri */
 .text-center-hidden::before {
-    content: ""; position: absolute;
-    top: 0; bottom: 0; left: 0; width: 15px; 
+    content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 15px; 
     background-image: linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor),
                       linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor);
-    background-size: 10px 2px, 2px 15px, 10px 2px, 2px 15px; 
-    background-position: left top, left top, left bottom, left bottom; 
-    background-repeat: no-repeat;
+    background-size: 10px 2px, 2px 15px, 10px 2px, 2px 15px; background-position: left top, left top, left bottom, left bottom; background-repeat: no-repeat;
 }
-
-/* Bingkai Kanan (TR & BR) */
+/* Bingkai Kanan */
 .text-center-hidden::after {
-    content: ""; position: absolute;
-    top: 0; bottom: 0; right: 0; width: 15px;
+    content: ""; position: absolute; top: 0; bottom: 0; right: 0; width: 15px;
     background-image: linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor),
                       linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor);
-    background-size: 10px 2px, 2px 15px, 10px 2px, 2px 15px; 
-    background-position: right top, right top, right bottom, right bottom; 
-    background-repeat: no-repeat;
+    background-size: 10px 2px, 2px 15px, 10px 2px, 2px 15px; background-position: right top, right top, right bottom, right bottom; background-repeat: no-repeat;
 }
 
-/* Lebar animasi saat terbuka */
-.reveal-up.active .text-center-hidden {
-    max-width: 350px; 
-    opacity: 1;
-    margin: 0 20px; 
+.reveal-up.active .text-center-hidden { max-width: 350px; opacity: 1; margin: 0 20px; }
+.statement-content p { font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 50px; max-width: 700px; margin-inline: auto; }
+.read-more-link { 
+    font-size: 1rem; 
+    font-weight: 700; 
+    color: var(--dark-grey); 
+    text-decoration: none; 
+    border-bottom: 3px solid var(--dark-grey); 
+    padding-bottom: 5px; 
+    transition: all 0.2s ease; /* Transisi diperhalus */
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
 }
 
-.statement-content p {
-    font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 50px;
-    max-width: 700px; margin-inline: auto;
+.read-more-link:hover { 
+    color: var(--primary-cyan); 
+    border-color: var(--primary-cyan); 
+    transition-delay: 0s !important; /* INI KUNCINYA: Memaksa delay hilang saat kursor mendekat */
 }
-.read-more-link {
-    font-size: 1rem; font-weight: 700; color: var(--dark-grey); text-decoration: none;
-    border-bottom: 3px solid var(--dark-grey); padding-bottom: 5px; transition: 0.3s;
-    text-transform: uppercase; letter-spacing: 1px;
-}
-.read-more-link:hover { color: var(--primary-cyan); border-color: var(--primary-cyan); }
-
 /* =========================================
    LAYANAN KAMI 
    ========================================= */
@@ -227,58 +261,104 @@ h1, h2, h3 { font-family: var(--font-sans); }
     background-color: var(--light-grey);
 }
 
-.lunaria-header h2 {
-    font-size: 4.5rem;
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 80px;
-    letter-spacing: -2px;
-}
-
+.lunaria-header h2 { font-size: 4.5rem; font-weight: 800; text-align: center; margin-bottom: 80px; letter-spacing: -2px; }
 .lunaria-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
 .lunaria-card { cursor: pointer; }
-.l-img-wrapper {
-    position: relative; width: 100%; aspect-ratio: 4/5; 
-    overflow: hidden; border-radius: 10px; margin-bottom: 25px;
-}
-.l-img-wrapper img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.lunaria-card:hover .l-img-wrapper img { transform: scale(1.08); }
+
+/* INI YANG MENGATUR OVERLAP NYA */
+.l-img-wrapper { position: relative; width: 100%; aspect-ratio: 4/5; margin-bottom: 40px; }
+.img-mask { width: 100%; height: 100%; overflow: hidden; border-radius: 12px; }
+.img-mask img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+.lunaria-card:hover .img-mask img { transform: scale(1.08); }
 
 .l-card-icon {
-    position: absolute; bottom: 20px; right: 20px;
-    width: 45px; height: 45px;
-    background-color: rgba(255,255,255,0.9); border-radius: 50%;
-    display: flex; justify-content: center; align-items: center;
-    font-size: 1.4rem; color: var(--dark-grey);
-    opacity: 0; transform: translateY(20px);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: absolute; bottom: 0; left: 50%; transform: translate(-50%, 100%); 
+    width: 55px; height: 55px; background-color: var(--primary-cyan); border-radius: 50%;
+    display: flex; justify-content: center; align-items: center; font-size: 1.4rem; color: var(--white); opacity: 0;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 10px 20px rgba(0, 180, 216, 0.4); 
 }
-.lunaria-card:hover .l-card-icon { opacity: 1; transform: translateY(0); }
+.lunaria-card:hover .l-card-icon { opacity: 1; transform: translate(-50%, 50%); }
 
-.l-card-info h3 { font-size: 1.6rem; font-weight: 800; margin-bottom: 5px; transition: color 0.3s; letter-spacing: -0.5px;}
-.l-card-info span { font-size: 1rem; color: var(--text-muted); }
+/* =========================================================
+   TEKS KARTU LAYANAN RATA TENGAH (CENTERED)
+   ========================================================= */
+.l-card-info {
+    text-align: center; /* Memaksa teks rata tengah */
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+.l-card-info h3 { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; transition: color 0.3s; letter-spacing: -0.5px; text-align: center;}
+.l-card-info span { font-size: 1rem; color: var(--text-muted); display: block; text-align: center;}
 .lunaria-card:hover .l-card-info h3 { color: var(--primary-cyan); }
 
-/* FOOTER MINIMALIS */
-.footer-hero { background: var(--dark-grey); color: var(--white); padding-top: 100px;}
-.footer-hero-content { display: flex; justify-content: center; text-align: center; padding: 0 8% 80px; border-bottom: 1px solid rgba(255,255,255,0.1);}
-.footer-hero-content h2 { 
-    font-family: var(--font-serif); 
-    font-size: 3.5rem; 
-    font-weight: 700; 
-    letter-spacing: -1px;
+
+/* =========================================
+   FOOTER BARU (BACKGROUND CYAN)
+   ========================================= */
+.footer-hero { 
+    background: var(--primary-cyan); /* DIKEMBALIKAN KE CYAN SESUAI PERMINTAAN */
+    color: var(--white); 
+    padding-top: 100px; 
 }
-.btn-white { background: var(--white); border: none; color: var(--dark-grey); cursor: pointer; transition: 0.3s;}
-.btn-white:hover { background: var(--primary-cyan); color: var(--white); }
+.footer-hero-content { display: flex; justify-content: center; text-align: center; padding: 0 8% 80px; border-bottom: 1px solid rgba(255,255,255,0.3); }
+.footer-hero-content h2 { font-family: var(--font-sans); font-size: 3.5rem; font-weight: 700; letter-spacing: -1px; }
+
+/* =========================================================
+   PERBAIKAN TOMBOL AKSES DASHBOARD (BACKGROUND PUTIH, TEXT CYAN)
+   ========================================================= */
+.btn-footer-wrapper { display: inline-block; }
+
+.btn-footer { 
+    background-color: var(--white); /* Background Putih */
+    border: none; border-radius: 50px; 
+    padding: 6px 6px 6px 25px; 
+    display: inline-flex; align-items: center; cursor: pointer; 
+    gap: 15px; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+.btn-footer:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+
+.btn-footer-text { 
+    font-size: 1rem; 
+    font-weight: 600; 
+    letter-spacing: 0.5px; 
+    color: var(--primary-cyan); /* Teks Cyan */
+    font-family: var(--font-sans); 
+}
+
+/* Lingkaran cyan yang berisi ikon panah putih */
+.btn-footer-icon-circle { 
+    width: 36px; height: 36px; 
+    background: var(--primary-cyan); /* Lingkaran Cyan */
+    color: var(--white); /* Panah putih */
+    border-radius: 50%; 
+    display: flex; justify-content: center; align-items: center; 
+    font-size: 1.2rem; transition: transform 0.3s ease;
+}
+.btn-footer:hover .btn-footer-icon-circle i { transform: translateX(3px); transition: transform 0.3s ease;}
+
+/* =========================================================
+   KUSTOMISASI LOGO DI FOOTER (AGAR KONSTRAS)
+   ========================================================= */
+.f-col .footer-logo {
+    font-size: 1.8rem; /* Sedikit lebih besar dari h4 */
+    color: var(--white); /* Teks "MediFlow" jadi putih */
+    margin-bottom: 20px;
+    justify-content: flex-start; /* Ratakan kiri */
+    padding: 0;
+}
+
+/* Ikon hati di logo footer juga diatur agar konsisten tapi tetap konstruas */
+.f-col .footer-logo .icon-med {
+    color: var(--white); /* Gunakan biru yang lebih gelap agar popping */
+}
 
 .footer-bottom-links { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; padding: 60px 8% 60px; }
-.f-col h4 { font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; color: var(--white); letter-spacing: -0.5px;}
-.f-col a { display: block; color: rgba(255,255,255,0.6); text-decoration: none; margin-bottom: 15px; transition: 0.3s; font-size: 1rem;}
-.f-col a:hover { color: var(--primary-cyan); }
-.text-sm { font-size: 1rem; opacity: 0.6; line-height: 1.7; max-width: 300px;}
+.f-col h4 { font-family: var(--font-sans); font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; color: var(--white); letter-spacing: -0.5px; }
+.f-col a { display: block; color: rgba(255,255,255,0.8); text-decoration: none; margin-bottom: 15px; transition: 0.3s; font-size: 1rem; }
+.f-col a:hover { color: var(--white); font-weight: 600; padding-left: 5px; }
+.text-sm { font-size: 1rem; opacity: 0.8; line-height: 1.7; max-width: 300px;}
 
 /* RESPONSIVE */
 @media (max-width: 992px) {
@@ -286,4 +366,8 @@ h1, h2, h3 { font-family: var(--font-sans); }
     .hero-content-booking h1, .statement-content h2, .lunaria-header h2 { font-size: 2.8rem; }
     .hero-bottom-text { font-size: 22vw; bottom: 0; }
     .footer-bottom-links { grid-template-columns: 1fr; text-align: center; }
+    
+    /* Sembunyikan top bar di layar kecil agar tidak memakan ruang */
+    .top-bar { display: none; }
+    .navbar-modern { top: 0; }
 }

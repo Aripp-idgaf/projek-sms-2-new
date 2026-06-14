@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediFlow - Layanan Kesehatan Premium</title>
     
-    <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="pages.css?v=6">
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
@@ -13,12 +13,22 @@
 </head>
 <body>
 
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="tb-item"><i class="bi bi-envelope-fill"></i> info@mediflow.com</div>
+            <div class="tb-item"><i class="bi bi-telephone-fill"></i> +62 811 2345 6789</div>
+            <div class="tb-item"><i class="bi bi-geo-alt-fill"></i> Jl. Kesehatan No.12, Semarang</div>
+        </div>
+    </div>
+
     <nav class="navbar-modern">
         <div class="logo">
             <i class="bi bi-heart-pulse-fill icon-med"></i> MediFlow
         </div>
         <div class="nav-actions">
-            <a href="./login/index.html" id="navAuthBtn" class="btn-login-outline">Login / Register</a>
+            <a href="./login/index.html" id="navAuthBtn" class="btn-login-outline">
+                <i class="bi bi-person-circle" style="font-size: 1.2rem;"></i> Login / Register
+            </a>
         </div>
     </nav>
 
@@ -37,6 +47,15 @@
                     <h3>Cari Jadwal Dokter Spesialis</h3>
                 </div>
                 <div class="cta-btn-circle"><i class="bi bi-arrow-right"></i></div>
+            </div>
+
+            <div class="trust-badge">
+                <div class="avatars">
+                    <img src="../wallpaper/rs20.jpeg" alt="Pasien">
+                    <img src="../wallpaper/rs22.jpeg" alt="Pasien">
+                    <img src="../wallpaper/rs23.jpeg" alt="Pasien">
+                </div>
+                <span class="trust-text">Dipercaya 100k+ Pasien Aktif</span>
             </div>
         </div>
 
@@ -70,10 +89,12 @@
         <div class="lunaria-grid">
             <div class="lunaria-card reveal-up" style="transition-delay: 0.1s;" onclick="aksesLayanan('view-jadwal')">
                 <div class="l-img-wrapper">
-                    <img src="../wallpaper/rs4.jpg" alt="Jadwal Dokter">
-                    <div class="l-card-icon"><i class="bi bi-calendar-check"></i></div>
+                    <div class="img-mask">
+                        <img src="../wallpaper/rs4.jpg" alt="Jadwal Dokter">
+                    </div>
+                    <div class="l-card-icon"><i class="bi bi-calendar3"></i></div>
                 </div>
-                <div class="l-card-info">
+                <div class="l-card-info text-center">
                     <h3>JADWAL DOKTER</h3>
                     <span>Pilih spesialis & atur waktu temu.</span>
                 </div>
@@ -81,10 +102,12 @@
 
             <div class="lunaria-card reveal-up" style="transition-delay: 0.3s;" onclick="aksesLayanan('view-jadwal')">
                 <div class="l-img-wrapper">
-                    <img src="../wallpaper/rs1.jpg" alt="Daftar Online">
+                    <div class="img-mask">
+                        <img src="../wallpaper/rs1.jpg" alt="Daftar Online">
+                    </div>
                     <div class="l-card-icon"><i class="bi bi-laptop"></i></div>
                 </div>
-                <div class="l-card-info">
+                <div class="l-card-info text-center">
                     <h3>DAFTAR ONLINE</h3>
                     <span>Ambil nomor antrean dari rumah.</span>
                 </div>
@@ -92,10 +115,12 @@
 
             <div class="lunaria-card reveal-up" style="transition-delay: 0.5s;" onclick="aksesLayanan('view-kamar')">
                 <div class="l-img-wrapper">
-                    <img src="../wallpaper/rs19.jpg" alt="Kamar Rawat">
+                    <div class="img-mask">
+                        <img src="../wallpaper/rs19.jpg" alt="Kamar Rawat">
+                    </div>
                     <div class="l-card-icon"><i class="bi bi-hospital"></i></div>
                 </div>
-                <div class="l-card-info">
+                <div class="l-card-info text-center">
                     <h3>INFORMASI KAMAR</h3>
                     <span>Cek ketersediaan tempat tidur RS.</span>
                 </div>
@@ -103,18 +128,25 @@
         </div>
     </section>
 
-    <footer class="footer-hero" style="background-color: #121212;">
+    <footer class="footer-hero">
         <div class="footer-hero-content">
             <div class="fh-text reveal-up">
                 <h2>Kesehatan Anda,<br>Prioritas Kami.</h2>
-                <button class="btn-white mt-4" onclick="aksesLayanan('view-home')" style="border-radius: 50px; padding: 15px 30px; font-weight: 600;">Akses Dashboard <i class="bi bi-arrow-right"></i></button>
+                <div class="btn-footer-wrapper mt-4">
+                    <button class="btn-footer" onclick="aksesLayanan('view-home')">
+                        <span class="btn-footer-text">Akses Dashboard</span>
+                        <div class="btn-footer-icon-circle"><i class="bi bi-arrow-right"></i></div>
+                    </button>
+                </div>
             </div>
         </div>
         
         <div class="footer-bottom-links reveal-up">
             <div class="f-col">
-                <h4 style="font-size: 1.5rem; color: #fff;">MediFlow.</h4>
-                <p class="text-sm">Platform reservasi dan manajemen klinik digital.</p>
+                <div class="logo footer-logo">
+                    <i class="bi bi-heart-pulse-fill icon-med"></i> MediFlow
+                </div>
+                <p class="text-sm">Platform reservasi dan manajemen klinik digital terpercaya.</p>
             </div>
             <div class="f-col">
                 <h4>Perusahaan</h4>
@@ -129,6 +161,6 @@
         </div>
     </footer>
 
-    <script src="pages.js?v=2"></script>
+    <script src="pages.js?v=6"></script>
 </body>
 </html>

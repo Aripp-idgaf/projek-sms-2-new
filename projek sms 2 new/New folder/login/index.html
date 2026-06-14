@@ -85,6 +85,16 @@
         .input-icon { position: relative; margin-bottom: 16px; width: 100%; flex-shrink: 0; }
         .input-icon i.bi { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #a0b8c2; font-size: 1.1rem; z-index: 5; transition: color 0.2s; }
         
+        /* CSS TAMBAHAN UNTUK IKON MATA (TOGGLE PASSWORD) */
+        .input-icon i.toggle-password {
+            left: auto; /* Reset posisi left */
+            right: 18px; /* Pindahkan ke kanan */
+            cursor: pointer; /* Ubah kursor jadi tangan agar bisa diklik */
+        }
+        .input-icon i.toggle-password:hover {
+            color: #38c8e6; /* Berubah warna saat dihover */
+        }
+
         /* CSS KHUSUS DROPDOWN UI PREMIUM */
         .custom-dropdown-menu {
             border-radius: 16px !important; padding: 8px !important; background-color: #ffffff;
@@ -176,6 +186,7 @@
                     <div class="input-icon">
                         <i class="bi bi-lock"></i>
                         <input type="password" id="loginPassword" class="cal-input" placeholder="Kata Sandi">
+                        <i class="bi bi-eye-slash toggle-password" data-target="loginPassword"></i>
                     </div>
 
                     <div class="forgot-password"><a onclick="bukaModalLupaSandi()">Lupa kata sandi?</a></div>
@@ -246,6 +257,7 @@
                     <div class="input-icon">
                         <i class="bi bi-lock"></i>
                         <input type="password" id="regPassword" class="cal-input" placeholder="Buat Kata Sandi (Minimal 6 Karakter)">
+                        <i class="bi bi-eye-slash toggle-password" data-target="regPassword"></i>
                     </div>
 
                     <div class="terms-wrapper">
@@ -270,6 +282,8 @@
     
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        
+        // --- LOGIKA DROPDOWN ---
         document.querySelectorAll('.custom-dd-item').forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -277,16 +291,13 @@
                 const menu = this.closest('.dropdown-menu');
                 const displayArea = menu.previousElementSibling; 
                 
-                // Ubah status aktif di daftar dropdown
                 menu.querySelectorAll('.custom-dd-item').forEach(el => el.classList.remove('active'));
                 this.classList.add('active');
                 
-                // Ubah teks yang tampil
                 const selectedText = this.innerText.trim();
                 displayArea.innerText = selectedText;
-                displayArea.style.color = '#1e2f3a'; // Ubah warna jadi gelap bila sebelumnya placeholder
+                displayArea.style.color = '#1e2f3a'; 
                 
-                // Ubah value pada elemen <select> asli agar script Supabase kamu tetap berjalan normal
                 const container = this.closest('.dropdown-custom-container');
                 if (container) {
                     const hiddenSelect = container.querySelector('select');
@@ -297,6 +308,33 @@
                 }
             });
         });
+
+        // ==========================================
+        // LOGIKA UNTUK MENAMPILKAN KATA SANDI (MATA)
+        // ==========================================
+        const togglePasswordIcons = document.querySelectorAll('.toggle-password');
+        
+        togglePasswordIcons.forEach(icon => {
+            icon.addEventListener('click', function() {
+                // Cari input password berdasarkan data-target
+                const targetId = this.getAttribute('data-target');
+                const passwordInput = document.getElementById(targetId);
+                
+                // Ubah tipe dan ikonnya
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text'; // Menampilkan teks
+                    this.classList.remove('bi-eye-slash'); // Hapus ikon mata disilang
+                    this.classList.add('bi-eye'); // Ganti jadi ikon mata terbuka
+                    this.style.color = '#38c8e6'; // Memberikan warna saat aktif
+                } else {
+                    passwordInput.type = 'password'; // Sembunyikan kembali
+                    this.classList.remove('bi-eye'); 
+                    this.classList.add('bi-eye-slash'); 
+                    this.style.color = '#a0b8c2'; // Kembalikan ke warna asli
+                }
+            });
+        });
+
     });
     </script>
 </body>

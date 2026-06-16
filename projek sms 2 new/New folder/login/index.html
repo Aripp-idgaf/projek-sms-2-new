@@ -58,7 +58,8 @@
         .slider-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(40, 45, 50, 0.6) 0%, rgba(20, 25, 30, 0.5) 100%); z-index: 1; }
         
         .cal-logo { display: flex; align-items: center; color: white; font-weight: 600; font-size: 1.4rem; position: relative; z-index: 2; text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .cal-logo i { font-size: 2rem; margin-right: 12px; color: #a0e7f5; }
+        /* Warna ikon diubah dari #a0e7f5 menjadi cyan #38c8e6 di bawah ini */
+        .cal-logo i { font-size: 2rem; margin-right: 12px; color: #38c8e6; }
         .cal-footer { position: relative; z-index: 2; color: rgba(255, 255, 255, 0.85); font-size: 0.75rem; font-weight: 400; letter-spacing: 0.3px; }
         
         .form-logo { text-align: center; margin-bottom: 12px; margin-top: auto; }
@@ -130,10 +131,23 @@
         
         .terms-wrapper { text-align: center; font-size: 0.78rem; margin: 12px 0; flex-shrink: 0; }
         .terms-wrapper label { color: #333333; cursor: pointer; font-weight: 500; }
-        .terms-wrapper a { color: #38c8e6; text-decoration: none; font-weight: 600; }
+        .terms-wrapper a { color: #38c8e6; text-decoration: none; font-weight: 600; transition: color 0.2s; }
+        .terms-wrapper a:hover { color: #25b3d1; text-decoration: underline; }
         
+        /* CSS yang diperbarui untuk Daftar Sekarang & Kembali Masuk */
         .signup-link { text-align: center; font-size: 0.82rem; color: #7d99a6; margin-top: 18px; margin-bottom: auto; flex-shrink: 0; }
-        .signup-link a { color: #38c8e6; font-weight: 600; text-decoration: none; cursor: pointer; }
+        .signup-link a { 
+            color: #38c8e6 !important; /* Biru Primary Cyan */
+            font-weight: 600; 
+            text-decoration: none; 
+            cursor: pointer; 
+            transition: color 0.2s ease, text-decoration 0.2s ease;
+        }
+        .signup-link a:hover { 
+            color: #25b3d1 !important; /* Efek gelap sedikit saat hover */
+            text-decoration: underline; 
+        }
+        
         .d-none { display: none !important; }
         
         @media (max-width: 850px) {

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediFlow - Layanan Kesehatan Premium</title>
     
-    <link rel="stylesheet" href="pages.css?v=6">
+    <link rel="stylesheet" href="pages.css?v=12">
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@
 
     <nav class="navbar-modern">
         <div class="logo">
-            <i class="bi bi-heart-pulse-fill icon-med"></i> MediFlow
+            <i class="bi bi-heart-pulse icon-med"></i> MediFlow
         </div>
         <div class="nav-actions">
             <a href="./login/index.html" id="navAuthBtn" class="btn-login-outline">
@@ -51,9 +51,9 @@
 
             <div class="trust-badge">
                 <div class="avatars">
-                    <img src="../wallpaper/rs20.jpeg" alt="Pasien">
-                    <img src="../wallpaper/rs22.jpeg" alt="Pasien">
-                    <img src="../wallpaper/rs23.jpeg" alt="Pasien">
+                    <img src="../wallpaper/rs4.jpg" alt="Pasien">
+                    <img src="../wallpaper/rs18.jpg" alt="Pasien">
+                    <img src="../wallpaper/rs19.jpg" alt="Pasien">
                 </div>
                 <span class="trust-text">Dipercaya 100k+ Pasien Aktif</span>
             </div>
@@ -103,7 +103,7 @@
             <div class="lunaria-card reveal-up" style="transition-delay: 0.3s;" onclick="aksesLayanan('view-jadwal')">
                 <div class="l-img-wrapper">
                     <div class="img-mask">
-                        <img src="../wallpaper/rs1.jpg" alt="Daftar Online">
+                        <img src="../wallpaper/rs3.jpg" alt="Daftar Online">
                     </div>
                     <div class="l-card-icon"><i class="bi bi-laptop"></i></div>
                 </div>
@@ -128,6 +128,84 @@
         </div>
     </section>
 
+    <section id="dokter-unggulan" class="featured-doctor-section reveal-up">
+        <div class="welcome-banner">
+            <div class="banner-bg-decor">
+                <div class="decor-circle"></div>
+                <div class="decor-shape"></div>
+            </div>
+            
+            <div class="banner-text">
+                <h2 class="banner-doc-name">Halo, Dr. Cae Soo Bin, Sp.PD!</h2>
+                <p class="banner-doc-desc" style="margin-bottom: 0;">
+                    Menjabat sebagai Dokter Kepala & Spesialis Penyakit Dalam di RS MediFlow. 
+                    Berdedikasi penuh untuk memastikan Anda mendapatkan perawatan medis berstandar internasional dan pelayanan kesehatan terbaik setiap harinya.
+                </p>
+            </div>
+
+            <div class="hero-doctor-wrapper">
+                <div class="bubble-hallo">Siap Melayani Anda!</div>
+                <img src="../wallpaper/rs14.png" alt="Dr. Cae Soo Bin" class="wel-doctor-img">
+            </div>
+        </div>
+    </section>
+
+    <section id="dokter-profil" class="doctor-section">
+        <div class="doctor-container">
+            
+            <div class="doctor-info-col reveal-up">
+                <div class="section-badge"><i class="bi bi-heart-pulse"></i> Tim Medis Kami</div>
+                <h2>Dokter Ahli Bersertifikasi</h2>
+                <p class="doctor-subtitle">— Menghadirkan solusi medis profesional dengan pendekatan modern yang berfokus pada ketepatan dan kepedulian pasien.</p>
+
+                <div class="doctor-accordion">
+                    <div class="accordion-item active" data-img="../wallpaper/rs4.jpg" data-badge="Tersertifikasi Dokter Anak">
+                        <div class="accordion-header">
+                            <h4>Dr. Kyla Salsabila, Sp.A</h4>
+                            <i class="bi bi-dash"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <p>Menjabat sebagai Dokter Spesialis Anak di RS MediFlow. Memastikan tumbuh kembang anak Anda terpantau dengan penanganan modern dan lingkungan yang ramah anak.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-img="../wallpaper/rs18.jpg" data-badge="Tersertifikasi Spesialis Mata">
+                        <div class="accordion-header">
+                            <h4>Dr. Bima Anggara, Sp.M</h4>
+                            <i class="bi bi-plus"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <p>Menjabat sebagai Dokter Spesialis Mata (Oftalmologi) di RS MediFlow. Berdedikasi memberikan perawatan optik terbaik untuk menjaga kesehatan dan ketajaman visual Anda.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-img="../wallpaper/rs19.jpg" data-badge="Tersertifikasi Penyakit Dalam">
+                        <div class="accordion-header">
+                            <h4>Dr. Nabila Putri, Sp.PD</h4>
+                            <i class="bi bi-plus"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <p>Menjabat sebagai Dokter Spesialis Penyakit Dalam di RS MediFlow. Fokus pada diagnosa presisi dan perawatan komprehensif bagi pasien dengan keluhan medis mendalam.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doctor-image-col reveal-up" style="transition-delay: 0.3s;">
+                <div class="doc-img-wrapper">
+                    <img src="../wallpaper/rs1.jpg" alt="Profil Dokter" id="doc-display-img">
+                    <div class="doc-badge" id="doc-badge-text">
+                        <i class="bi bi-check-circle"></i> Tersertifikasi Dokter Anak
+                    </div>
+                    <button class="doc-action-btn" onclick="aksesLayanan('view-jadwal')">
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
     <footer class="footer-hero">
         <div class="footer-hero-content">
             <div class="fh-text reveal-up">
@@ -144,7 +222,7 @@
         <div class="footer-bottom-links reveal-up">
             <div class="f-col">
                 <div class="logo footer-logo">
-                    <i class="bi bi-heart-pulse-fill icon-med"></i> MediFlow
+                    <i class="bi bi-heart-pulse icon-med"></i> MediFlow
                 </div>
                 <p class="text-sm">Platform reservasi dan manajemen klinik digital terpercaya.</p>
             </div>
@@ -161,6 +239,6 @@
         </div>
     </footer>
 
-    <script src="pages.js?v=6"></script>
+    <script src="pages.js?v=11"></script>
 </body>
 </html>

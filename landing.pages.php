@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediFlow - Layanan Kesehatan Premium</title>
     
-    <link rel="stylesheet" href="pages.css?v=12">
+    <link rel="stylesheet" href="pages.css?v=19">
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
@@ -34,7 +34,7 @@
 
     <header id="beranda" class="hero-booking">
         <div class="hero-bg-wrapper">
-            <img src="wallpaper/rs17.jpeg" alt="Dokter Background" class="hero-bg-image">
+            <img src="wallpaper/rs17.jpg" alt="Dokter Background" class="hero-bg-image">
             <div class="hero-fade-overlay"></div>
         </div>
 
@@ -58,7 +58,6 @@
                 <span class="trust-text">Dipercaya 100k+ Pasien Aktif</span>
             </div>
         </div>
-
     </header>
 
     <section id="statement" class="statement-section">
@@ -158,7 +157,7 @@
                 <p class="doctor-subtitle">— Menghadirkan solusi medis profesional dengan pendekatan modern yang berfokus pada ketepatan dan kepedulian pasien.</p>
 
                 <div class="doctor-accordion">
-                    <div class="accordion-item active" data-img="wallpaper/rs4.jpg" data-badge="Tersertifikasi Dokter Anak">
+                    <div class="accordion-item active" data-img="wallpaper/rs4.jpg">
                         <div class="accordion-header">
                             <h4>Dr. Kyla Salsabila, Sp.A</h4>
                             <i class="bi bi-dash"></i>
@@ -168,7 +167,7 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item" data-img="wallpaper/rs18.jpg" data-badge="Tersertifikasi Spesialis Mata">
+                    <div class="accordion-item" data-img="wallpaper/rs18.jpg">
                         <div class="accordion-header">
                             <h4>Dr. Bima Anggara, Sp.M</h4>
                             <i class="bi bi-plus"></i>
@@ -178,7 +177,7 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item" data-img="wallpaper/rs19.jpg" data-badge="Tersertifikasi Penyakit Dalam">
+                    <div class="accordion-item" data-img="wallpaper/rs19.jpg">
                         <div class="accordion-header">
                             <h4>Dr. Nabila Putri, Sp.PD</h4>
                             <i class="bi bi-plus"></i>
@@ -193,51 +192,66 @@
             <div class="doctor-image-col reveal-up" style="transition-delay: 0.3s;">
                 <div class="doc-img-wrapper">
                     <img src="wallpaper/rs1.jpg" alt="Profil Dokter" id="doc-display-img">
-                    <div class="doc-badge" id="doc-badge-text">
-                        <i class="bi bi-check-circle"></i> Tersertifikasi Dokter Anak
-                    </div>
-                    <button class="doc-action-btn" onclick="aksesLayanan('view-jadwal')">
-                        <i class="bi bi-arrow-right"></i>
-                    </button>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <footer class="footer-hero">
-        <div class="footer-hero-content">
-            <div class="fh-text reveal-up">
-                <h2>Kesehatan Anda,<br>Prioritas Kami.</h2>
-                <div class="btn-footer-wrapper mt-4">
-                    <button class="btn-footer" onclick="aksesLayanan('view-home')">
-                        <span class="btn-footer-text">Akses Dashboard</span>
-                        <div class="btn-footer-icon-circle"><i class="bi bi-arrow-right"></i></div>
-                    </button>
+    <!-- FOOTER LAYOUT MINIMALIST (NEW LOGO) -->
+    <footer class="footer-modern">
+        <div class="footer-top reveal-up">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <i class="bi bi-heart-pulse"></i>mediflow
+                </div>
+                <p>
+                    Atur jadwal konsultasi, pilih dokter spesialis, dan dapatkan nomor antrean secara online. Semudah memesan tiket bioskop.
+                </p>
+                <div class="footer-socials">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links-wrapper">
+                <div class="f-col">
+                    <h4>LAYANAN</h4>
+                    <a href="#">Jadwal Dokter</a>
+                    <a href="#">Daftar Online</a>
+                    <a href="#">Informasi Kamar</a>
+                    <a href="#">Check Up</a>
+                </div>
+                <div class="f-col">
+                    <h4>PERUSAHAAN</h4>
+                    <a href="#">Tentang Kami</a>
+                    <a href="#">Karir</a>
+                    <a href="#">Berita & Pers</a>
+                    <a href="#">Kontak</a>
+                </div>
+                <div class="f-col">
+                    <h4>LEGAL</h4>
+                    <a href="#">Kebijakan Privasi</a>
+                    <a href="#">Syarat Layanan</a>
+                    <a href="#">Kebijakan Cookie</a>
+                    <a href="#">Kepatuhan</a>
                 </div>
             </div>
         </div>
         
-        <div class="footer-bottom-links reveal-up">
-            <div class="f-col">
-                <div class="logo footer-logo">
-                    <i class="bi bi-heart-pulse icon-med"></i> MediFlow
-                </div>
-                <p class="text-sm">Platform reservasi dan manajemen klinik digital terpercaya.</p>
+        <div class="footer-divider reveal-up"></div>
+        
+        <div class="footer-bottom reveal-up">
+            <div class="footer-copy">
+                &copy; 2026 MediFlow Inc. All rights reserved.
             </div>
-            <div class="f-col">
-                <h4>Perusahaan</h4>
-                <a href="#">Tentang Kami</a>
-                <a href="#">Karir</a>
-            </div>
-            <div class="f-col">
-                <h4>Bantuan</h4>
-                <a href="#">Cara Booking</a>
-                <a href="#">Integrasi BPJS</a>
+            <div class="footer-legal-links">
+                <a href="#">Kebijakan Privasi</a>
+                <a href="#">Syarat Layanan</a>
             </div>
         </div>
     </footer>
 
-    <script src="pages.js?v=11"></script>
+    <script src="pages.js?v=19"></script>
 </body>
 </html>

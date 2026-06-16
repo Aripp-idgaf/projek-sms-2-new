@@ -1,6 +1,5 @@
 :root {
     --primary-cyan: #00B4D8; 
-    --primary-blue: #0077B6;
     --dark-navy: #03045E;
     --dark-grey: #121212;
     --light-grey: #F8F9FA;
@@ -81,7 +80,6 @@ h1, h2, h3, h4 { font-family: var(--font-sans); }
 .avatars img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid #000; margin-left: -12px; object-fit: cover; }
 .avatars img:first-child { margin-left: 0; }
 .trust-text { color: rgba(255, 255, 255, 0.85); font-size: 0.9rem; font-weight: 500; }
-.hero-bottom-text { position: absolute; bottom: -4vw; left: 0; width: 100%; text-align: center; font-size: 18vw; font-weight: 900; color: rgba(255, 255, 255, 0.05); line-height: 1; letter-spacing: -8px; z-index: 5; pointer-events: none; }
 
 /* STATEMENT SECTION */
 .statement-section { background-color: var(--white); padding: 150px 8%; display: flex; justify-content: center; align-items: center; text-align: center; }
@@ -113,13 +111,9 @@ h1, h2, h3, h4 { font-family: var(--font-sans); }
 .l-card-info span { font-size: 1rem; color: var(--text-muted); display: block; }
 .lunaria-card:hover .l-card-info h3 { color: var(--primary-cyan); }
 
-
-/* =========================================================
-   BANNER DOKTER UNGGULAN (DIPERBAIKI JARAK ATASNYA)
-   ========================================================= */
+/* BANNER DOKTER UNGGULAN */
 .featured-doctor-section { 
     padding: 0; 
-    /* DITAMBAHKAN MARGIN ATAS (180px) AGAR KEPALA DOKTER TIDAK MENABRAK LAYOUT DI ATASNYA */
     margin: 180px 0 100px 0; 
     background-color: transparent; 
     width: 100%;
@@ -148,11 +142,9 @@ h1, h2, h3, h4 { font-family: var(--font-sans); }
 .banner-doc-name { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; line-height: 1.15; letter-spacing: -1px; color: var(--white); }
 .banner-doc-desc { font-size: 1.15rem; line-height: 1.7; opacity: 0.95; font-weight: 400;}
 
-/* Animasi Kursor (Hover) pada Foto Dokter Diperbesar */
 .hero-doctor-wrapper { 
     position: absolute; bottom: 0; right: 8%; width: 40%; max-width: 500px; 
     height: auto; 
-    /* DITURUNKAN SEDIKIT (DARI 130% KE 115%) AGAR TERLIHAT PROPORSIONAL & TIDAK MENEMBUS KELEWATAN */
     max-height: 115%; 
     z-index: 20; cursor: pointer; display: flex; 
     align-items: flex-end; justify-content: flex-end; opacity: 0; animation: fadeInOnly 0.6s ease forwards; overflow: visible; 
@@ -162,7 +154,6 @@ h1, h2, h3, h4 { font-family: var(--font-sans); }
 .wel-doctor-img { width: 100%; height: auto; max-width: 100%; object-fit: contain; object-position: bottom right; transform-origin: bottom center; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease; filter: drop-shadow(-8px 10px 12px rgba(0,0,0,0.15)); }
 .hero-doctor-wrapper:hover .wel-doctor-img { transform: scale(1.05); filter: drop-shadow(-12px 15px 18px rgba(0,0,0,0.25)); }
 
-/* Animasi Bubble saat Hover */
 .bubble-hallo { 
     position: absolute; bottom: 75%; right: 80%; margin-right: 15px; background: var(--white); 
     color: var(--primary-cyan); padding: 12px 24px; border-radius: 30px; font-weight: 800; 
@@ -173,14 +164,10 @@ h1, h2, h3, h4 { font-family: var(--font-sans); }
 .bubble-hallo::after { content: ''; position: absolute; top: 50%; right: -10px; transform: translateY(-50%); width: 0; height: 0; border-style: solid; border-width: 10px 0 10px 12px; border-color: transparent transparent transparent var(--white); background: transparent; }
 .hero-doctor-wrapper:hover .bubble-hallo { opacity: 1; visibility: visible; transform: translateY(0) scale(1) rotate(0deg); transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
-
-/* =========================================================
-   PROFIL DOKTER (AKORDEON KIRI, GAMBAR KANAN)
-   ========================================================= */
+/* PROFIL DOKTER */
 .doctor-section { background-color: var(--white); padding: 80px 8% 120px 8%; }
 .doctor-container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: stretch; }
 
-/* Badge Kecil "Tim Medis Kami" (Pure Cyan, Logo Garis Tepi) */
 .section-badge { 
     display: inline-flex; align-items: center; gap: 8px; 
     background: rgba(0, 180, 216, 0.1); color: var(--primary-cyan); 
@@ -191,7 +178,6 @@ h1, h2, h3, h4 { font-family: var(--font-sans); }
 .doctor-info-col h2 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; letter-spacing: -1px; color: var(--dark-grey); }
 .doctor-subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; line-height: 1.6;}
 
-/* Akordeon Kiri */
 .doctor-accordion { display: flex; flex-direction: column; gap: 15px; }
 .accordion-item { 
     background: var(--white); border: 2px solid #f1f1f1; border-radius: 24px; padding: 25px 30px; 
@@ -203,7 +189,6 @@ h1, h2, h3, h4 { font-family: var(--font-sans); }
 .accordion-body { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; margin-top: 0; }
 .accordion-body p { font-size: 1rem; line-height: 1.6; margin: 0; color: inherit; opacity: 0.9; }
 
-/* Akordeon Aktif (Pure Cyan Solid - Tanpa Gradasi) */
 .accordion-item.active { 
     background: var(--primary-cyan); border-color: var(--primary-cyan); color: var(--white); 
     box-shadow: 0 15px 30px rgba(0, 180, 216, 0.25); transform: scale(1.02); 
@@ -212,7 +197,6 @@ h1, h2, h3, h4 { font-family: var(--font-sans); }
 .accordion-item.active .accordion-header i { color: var(--white); transform: rotate(180deg); } 
 .accordion-item.active .accordion-body { max-height: 200px; opacity: 1; margin-top: 15px; }
 
-/* Gambar Dokter Kanan */
 .doctor-image-col { position: relative; width: 100%; height: 100%; min-height: 550px;}
 .doc-img-wrapper { 
     width: 100%; height: 100%; position: relative; border-radius: 30px; 
@@ -221,66 +205,162 @@ h1, h2, h3, h4 { font-family: var(--font-sans); }
 }
 .doc-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.4s ease; }
 
-/* Overlay Badge Putih */
-.doc-badge { 
-    position: absolute; bottom: 40px; left: 40px; background: var(--white); 
-    padding: 14px 24px; border-radius: 50px; display: flex; align-items: center; gap: 10px; 
-    font-weight: 600; font-size: 1.05rem; color: var(--dark-grey); 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15); z-index: 2; transition: all 0.3s; 
+/* =========================================================
+   FOOTER BARU (MINIMALIST LOGO BARU)
+   ========================================================= */
+.footer-modern {
+    background-color: var(--primary-cyan);
+    color: var(--white);
+    padding: 80px 8% 30px;
+    font-family: var(--font-sans);
 }
-.doc-badge i { color: var(--dark-grey); font-size: 1.3rem; }
 
-/* Tombol Aksi Panah Lurus Kanan (Pojok Kanan Bawah) */
-.doc-action-btn { 
-    position: absolute; bottom: 40px; right: 40px; width: 55px; height: 55px; 
-    border-radius: 50%; background: var(--white); border: none; display: flex; 
-    justify-content: center; align-items: center; font-size: 1.3rem; cursor: pointer; 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15); z-index: 2; transition: all 0.3s ease; color: var(--dark-grey); 
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin-bottom: 60px;
 }
-/* Hover: Background jadi pure cyan, arah panah tetap stabil lurus ke kanan tanpa mutar */
-.doc-action-btn:hover { transform: scale(1.1) translateX(5px); background: var(--primary-cyan); color: var(--white); }
 
+.footer-brand {
+    flex: 1;
+    min-width: 300px;
+    max-width: 450px;
+}
 
-/* FOOTER */
-.footer-hero { background: var(--primary-cyan); color: var(--white); padding-top: 100px; }
-.footer-hero-content { display: flex; justify-content: center; text-align: center; padding: 0 8% 80px; border-bottom: 1px solid rgba(255,255,255,0.3); }
-.footer-hero-content h2 { font-family: var(--font-sans); font-size: 3.5rem; font-weight: 700; letter-spacing: -1px; }
+/* CSS LOGO DIUBAH MENJADI HURUF KECIL + IKON */
+.footer-logo {
+    font-size: 2.5rem; /* Ukuran pas untuk ikon dan huruf kecil */
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.footer-logo i {
+    color: var(--white) !important; /* Memaksa warna ikon jadi putih agar tidak nabrak cyan */
+    font-size: 2.5rem;
+    font-weight: normal !important;
+    font-style: normal !important;
+}
 
-.btn-footer-wrapper { display: inline-block; }
-.btn-footer { background-color: var(--white); border: none; border-radius: 50px; padding: 6px 6px 6px 25px; display: inline-flex; align-items: center; cursor: pointer; gap: 15px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.btn-footer:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
-.btn-footer-text { font-size: 1rem; font-weight: 600; letter-spacing: 0.5px; color: var(--primary-cyan); }
-.btn-footer-icon-circle { width: 36px; height: 36px; background: var(--primary-cyan); color: var(--white); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; transition: transform 0.3s; }
-.btn-footer:hover .btn-footer-icon-circle i { transform: translateX(3px); }
+.footer-brand p {
+    font-size: 1.05rem;
+    opacity: 0.9;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
 
-.f-col .footer-logo { font-size: 1.8rem; color: var(--white); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; justify-content: flex-start; padding: 0; }
-.f-col .footer-logo i { color: var(--white) !important; font-size: 26px; font-weight: normal !important; font-style: normal !important; display: inline-block; line-height: 1; }
-.footer-bottom-links { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; padding: 60px 8% 60px; }
-.f-col h4 { font-family: var(--font-sans); font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; color: var(--white); letter-spacing: -0.5px; }
-.f-col a { display: block; color: rgba(255,255,255,0.8); text-decoration: none; margin-bottom: 15px; transition: 0.3s; font-size: 1rem; }
-.f-col a:hover { color: var(--white); font-weight: 600; padding-left: 5px; }
-.text-sm { font-size: 1rem; opacity: 0.8; line-height: 1.7; max-width: 300px;}
+.footer-socials {
+    display: flex;
+    gap: 15px;
+}
 
-/* RESPONSIVE */
+.footer-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    color: var(--white);
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.footer-socials a:hover {
+    background-color: var(--white);
+    color: var(--primary-cyan);
+    border-color: var(--white);
+    transform: translateY(-3px);
+}
+
+.footer-links-wrapper {
+    display: flex;
+    gap: 80px;
+    flex-wrap: wrap;
+}
+
+.f-col h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 25px;
+    font-weight: 700;
+    opacity: 0.9;
+}
+
+.f-col a {
+    display: block;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    transition: color 0.3s, padding-left 0.3s;
+}
+
+.f-col a:hover {
+    color: var(--white);
+    padding-left: 5px;
+}
+
+.footer-divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-copy {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.footer-legal-links {
+    display: flex;
+    gap: 30px;
+}
+
+.footer-legal-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.footer-legal-links a:hover {
+    color: var(--white);
+}
+
 @media (max-width: 992px) {
     .lunaria-grid { grid-template-columns: 1fr; }
     .hero-content-booking h1, .statement-content h2, .lunaria-header h2, .doctor-info-col h2 { font-size: 2.8rem; }
-    .hero-bottom-text { font-size: 22vw; bottom: 0; }
-    .footer-bottom-links { grid-template-columns: 1fr; text-align: center; }
     .top-bar { display: none; }
     .navbar-modern { top: 0; }
     
-    /* Responsive Bagian Dokter */
     .doctor-container { grid-template-columns: 1fr; gap: 40px; }
     .doctor-image-col { min-height: 400px; }
-    .doc-badge { bottom: 20px; left: 20px; padding: 10px 20px; font-size: 0.9rem; }
-    .doc-action-btn { bottom: 20px; right: 20px; width: 45px; height: 45px; }
     
-    /* Responsive Banner Dokter Unggulan (Full Width) */
     .welcome-banner { flex-direction: column; padding: 60px 8%; text-align: center; }
     .banner-text { max-width: 100%; margin-bottom: 40px; }
     .banner-doc-name { font-size: 2.8rem; }
     .hero-doctor-wrapper { position: relative; right: auto; width: 80%; max-width: 400px; max-height: none; margin: 0 auto; justify-content: center; }
     .bubble-hallo { right: 50%; bottom: 90%; margin-right: 0; }
     .bubble-hallo::after { right: 20%; top: 100%; border-width: 12px 10px 0 10px; border-color: var(--white) transparent transparent transparent; }
+
+    /* Responsive Footer Minimalist */
+    .footer-top { flex-direction: column; gap: 40px; }
+    .footer-links-wrapper { gap: 40px; justify-content: space-between; width: 100%; }
+    .footer-bottom { flex-direction: column; text-align: center; justify-content: center; }
 }

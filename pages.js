@@ -58,11 +58,12 @@ hiddenElements.forEach((el) => {
     observer.observe(el);
 });
 
-// 4. ANIMASI AKORDEON PROFIL DOKTER (BARU DITAMBAHKAN)
+// 4. ANIMASI AKORDEON PROFIL DOKTER (DIPERBAIKI)
 function initDoctorAccordion() {
     const accItems = document.querySelectorAll('.accordion-item');
     const docDisplayImg = document.getElementById('doc-display-img');
-    const docBadgeText = document.getElementById('doc-badge-text');
+
+    // MENGHAPUS CONST docBadgeText KARENA ELEMENNYA SUDAH DIBUANG
 
     accItems.forEach(item => {
         item.addEventListener('click', () => {
@@ -83,9 +84,8 @@ function initDoctorAccordion() {
             clickedIcon.classList.remove('bi-plus');
             clickedIcon.classList.add('bi-dash');
 
-            // 3. Dapatkan data gambar dan label spesialis dari atribut html
+            // 3. Dapatkan data gambar
             const newImgSrc = item.getAttribute('data-img');
-            const newBadgeTxt = item.getAttribute('data-badge');
 
             // 4. Lakukan animasi memudarkan gambar (fade effect)
             docDisplayImg.style.opacity = '0';
@@ -93,7 +93,6 @@ function initDoctorAccordion() {
             // Tunggu 300ms (sampai gambar memudar), lalu ganti src gambarnya dan munculkan lagi
             setTimeout(() => {
                 docDisplayImg.src = newImgSrc;
-                docBadgeText.innerHTML = `<i class="bi bi-check-circle"></i> ${newBadgeTxt}`;
                 docDisplayImg.style.opacity = '1';
             }, 300);
         });

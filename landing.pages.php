@@ -23,7 +23,7 @@
 
     <nav class="navbar-modern">
         <div class="logo">
-            <i class="bi bi-heart-pulse icon-med"></i> MediFlow
+            <i class="bi bi-heart-pulse icon-med"></i>mediflow
         </div>
         <div class="nav-actions">
             <a href="./login/index.php" id="navAuthBtn" class="btn-login-outline">
@@ -34,7 +34,7 @@
 
     <header id="beranda" class="hero-booking">
         <div class="hero-bg-wrapper">
-            <img src="wallpaper/rs17.jpg" alt="Dokter Background" class="hero-bg-image">
+            <img src="wallpaper/rs17.jpeg" alt="Dokter Background" class="hero-bg-image">
             <div class="hero-fade-overlay"></div>
         </div>
 
@@ -59,7 +59,6 @@
             </div>
         </div>
 
-        <div class="hero-bottom-text reveal-up" style="transition-delay: 0.3s;">MEDIFLOW</div>
     </header>
 
     <section id="statement" class="statement-section">
@@ -67,7 +66,7 @@
             <h2 class="reveal-up split-heading">
                 <span class="split-line">
                     <span class="text-left">KAMI</span>
-                    <span class="text-center-hidden">DEDIKASI KAMI</span>
+                    <span class="text-center-hidden">MEDIFLOW</span>
                     <span class="text-right">MEMBERIKAN</span>
                 </span><br>
                 KEMUDAHAN AKSES KESEHATAN<br>UNTUK ANDA DAN KELUARGA.

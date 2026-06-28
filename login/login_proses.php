@@ -1,42 +1,45 @@
-<?php
+<?php 
+// Mengaktifkan session pada php
 session_start();
+
+// Menghubungkan php dengan koneksi database
 include 'koneksi.php';
 
-// Menangkap data dari form login
+// Menangkap data yang dikirim dari form login
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-// Mengambil data user berdasarkan email
-$query = mysqli_query($koneksi, "SELECT * FROM users WHERE email='$email'");
-$cek = mysqli_num_rows($query);
+// Menyeleksi data user dengan email dan password yang sesuai
+$login = mysqli_query($koneksi,"SELECT * FROM users WHERE email='$email' AND password='$password'");
 
-if($cek > 0) {
-    $user = mysqli_fetch_assoc($query);
-    
-    // Cek password langsung dengan membandingkan teks
-    if($password == $user['password']) {
-        
-        // Simpan session
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['role'] = $user['role'];
-        $_SESSION['nama'] = $user['nama'];
-        $_SESSION['status'] = "login";
+// Menghitung jumlah data yang ditemukan
+$cek = mysqli_num_rows($login);
 
-        // Arahkan ke dashboard sesuai role
-        if($user['role'] == "admin") {
-            header("location:../admin/dashboard.admin.php");
-        } else if($user['role'] == "dokter") {
-            header("location:../dokter/dashboard.dokter.php");
-        } else if($user['role'] == "pasien") {
-            header("location:../pasien/dashboard.pasien.php");
-        }
-        
-    } else {
-        // Password salah
-        header("location:index.php?pesan=gagal");
-    }
+// Cek apakah email dan password di temukan pada database
+if($cek > 0){
+
+    // Ambil semua data (baris) pengguna tersebut dari database
+    $data = mysqli_fetch_assoc($login);
+
+    // ========================================================
+    // PROSES SINKRONISASI KE DASHBOARD (MEMASUKKAN KE SESSION)
+    // ========================================================
+    $_SESSION['email'] = $email;
+    $_SESSION['status'] = "login";
+    $_SESSION['role'] = "pasien"; // atau sesuai role di DB Anda
+
+    // Bawa data lainnya dari database ke Session
+    $_SESSION['nama'] = $data['nama'];
+    $_SESSION['nik'] = $data['nik'];
+    $_SESSION['tanggal_lahir'] = $data['tanggal_lahir']; // Format wajib: YYYY-MM-DD
+    $_SESSION['gol_darah'] = $data['gol_darah'];
+    $_SESSION['alamat'] = $data['alamat'];
+
+    // Alihkan ke halaman dashboard pasien
+    header("location:../pasien/dashboard.pasien.php");
+
 } else {
-    // Email tidak ditemukan
+    // Jika gagal, kembalikan ke form login
     header("location:index.php?pesan=gagal");
 }
 ?>

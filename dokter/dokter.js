@@ -135,10 +135,8 @@ let activePatient = null;
         }
         
         function logout() { 
-            if(confirm('Keluar sistem portal?')) {
         // Arahkan ke file logout.php yang tadi kita buat
                 window.location.href = '../login/logout.php'; 
-            }
         }
 
         function updateClock() {

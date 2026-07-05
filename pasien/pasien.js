@@ -1,5 +1,5 @@
 // ====================================================
-// SCRIPT NAVIGASI & MENU
+// SCRIPT NAVIGASI, MENU, & MEMORI PANEL
 // ====================================================
 function switchView(viewId) {
     document.querySelectorAll('.view-section').forEach(el => el.classList.add('d-none'));
@@ -19,7 +19,14 @@ setInterval(updateDateTime, 1000);
 updateDateTime();
 
 function togglePanel() {
-    document.getElementById('rightPanel').classList.toggle('closed'); 
+    const panel = document.getElementById('rightPanel');
+    panel.classList.toggle('closed'); 
+    
+    if(panel.classList.contains('closed')) {
+        localStorage.setItem('panelPasienState', 'closed');
+    } else {
+        localStorage.setItem('panelPasienState', 'open');
+    }
 }
 
 function logoutSession() {
@@ -27,42 +34,150 @@ function logoutSession() {
 }
 
 // ====================================================
-// LOGIKA DROPDOWN KUSTOM
+// DATABASE DOKTER & SHIFT
+// ====================================================
+const dataDokter = {
+    "Poliklinik Umum (Dokter Umum)": [
+        { nama: "Dr. Reza Aditya", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Siti Nurhaliza", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Budi Gunawan", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ],
+    "IGD (Siaga 24 Jam)": [
+        { nama: "Dr. Agung Permana (IGD)", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Bayu Saputra (IGD)", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Citra Kirana (IGD)", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ],
+    "Spesialis Penyakit Dalam (Sp.PD)": [
+        { nama: "Dr. Cae Soo Bin, Sp.PD", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Nabila Putri, Sp.PD", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Budi Santoso, Sp.PD", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ],
+    "Spesialis Anak (Sp.A)": [
+        { nama: "Dr. Kyla Salsabila, Sp.A", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Rina Ananda, Sp.A", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Doni Damara, Sp.A", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ],
+    "Spesialis Obstetri & Ginekologi (Sp.OG)": [
+        { nama: "Dr. Sarah Amalia, Sp.OG", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Maya Indah, Sp.OG", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Ratih Purwasih, Sp.OG", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ],
+    "Spesialis Bedah (Sp.B)": [
+        { nama: "Dr. Hendra Wijaya, Sp.B", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Anton Syahputra, Sp.B", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Rio Dewanto, Sp.B", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ],
+    "Spesialis Saraf (Sp.S)": [
+        { nama: "Dr. Andi Pratama, Sp.S", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Siska Oktavia, Sp.S", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Toni Gunawan, Sp.S", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ],
+    "Spesialis Jantung & Pembuluh Darah (Sp.JP)": [
+        { nama: "Dr. Rina Diana, Sp.JP", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Johan Kusuma, Sp.JP", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Surya Saputra, Sp.JP", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ],
+    "Spesialis Kedokteran Jiwa (Sp.KJ)": [
+        { nama: "Dr. Kevin Sanjaya, Sp.KJ", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Diana Pungky, Sp.KJ", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Putri Lestari, Sp.KJ", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ],
+    "Spesialis Mata (Sp.M)": [
+        { nama: "Dr. Bima Anggara, Sp.M", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Ayu Lestari, Sp.M", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Tono Hartono, Sp.M", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ],
+    "Spesialis THT-KL (Sp.THT-KL)": [
+        { nama: "Dr. Maya Sari, Sp.THT-KL", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Ari Wibowo, Sp.THT-KL", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Rian Dwi, Sp.THT-KL", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ],
+    "Spesialis Anestesiologi (Sp.An)": [
+        { nama: "Dr. Doni Irawan, Sp.An", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Tika Bravani, Sp.An", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Eka Putra, Sp.An", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ],
+    "Spesialis Radiologi (Sp.Rad)": [
+        { nama: "Dr. Riska Utami, Sp.Rad", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Aldi Taher, Sp.Rad", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Bima Sakti, Sp.Rad", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ],
+    "Spesialis Patologi Klinik (Sp.PK)": [
+        { nama: "Dr. Denny Setiawan, Sp.PK", shift: "Pagi (08:00 - 12:00)", shiftKey: "pagi" },
+        { nama: "Dr. Rini Yulianti, Sp.PK", shift: "Siang (13:00 - 16:00)", shiftKey: "siang" },
+        { nama: "Dr. Aldo Pratama, Sp.PK", shift: "Malam (18:00 - 21:00)", shiftKey: "malam" }
+    ]
+};
+
+let kuotaHariIni = null;
+
+// ====================================================
+// LOGIKA DROPDOWN KUSTOM & AWAL MUAT
 // ====================================================
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.custom-dd-item').forEach(item => {
-        item.addEventListener('click', function(e) {
+    
+    const panelState = localStorage.getItem('panelPasienState');
+    const panel = document.getElementById('rightPanel');
+    if (panel) {
+        if (panelState === 'closed') { panel.classList.add('closed'); } 
+        else { panel.classList.remove('closed'); }
+    }
+
+    document.addEventListener('click', function(e) {
+        const item = e.target.closest('.custom-dd-item');
+        
+        if (item) {
             e.preventDefault();
-            
-            const menu = this.closest('.dropdown-menu');
+            if (item.classList.contains('disabled')) return;
+
+            const menu = item.closest('.dropdown-menu');
             const toggleBtn = menu.previousElementSibling;
             const displayArea = toggleBtn.querySelector('span') || toggleBtn;
 
             menu.querySelectorAll('.custom-dd-item').forEach(el => el.classList.remove('active'));
-            this.classList.add('active');
+            item.classList.add('active');
 
-            const selectedText = this.innerText.trim();
+            const selectedText = item.getAttribute('data-value') || item.innerText.trim();
+            
             if(toggleBtn.querySelector('span')){
                 displayArea.innerText = selectedText;
                 displayArea.classList.remove('text-muted');
                 displayArea.style.color = '#1e2f3a';
             }
 
-            const container = this.closest('.dropdown-custom-container');
+            if (menu.id === 'listPoli') {
+                updateDaftarDokter(selectedText);
+            } 
+            else if (menu.id === 'listDokter') {
+                const shiftDokter = item.getAttribute('data-shift');
+                if(shiftDokter) {
+                    const jamInput = document.getElementById('textJam');
+                    jamInput.value = shiftDokter;
+                    jamInput.classList.remove('text-muted');
+                    jamInput.classList.add('text-teal-mediflow');
+                }
+            }
+
+            const container = item.closest('.dropdown-custom-container');
             if (container) {
                 const hiddenSelect = container.querySelector('select');
                 if (hiddenSelect) {
-                    hiddenSelect.value = this.getAttribute('data-value');
+                    hiddenSelect.value = item.getAttribute('data-value');
                     hiddenSelect.dispatchEvent(new Event('change'));
                 }
             }
-        });
+        }
     });
 
     detectDevice(); 
-});
+    
+    const inputTanggal = document.getElementById('inputTanggal');
+    if(inputTanggal) {
+        inputTanggal.addEventListener('change', function() {
+            cekKuotaJadwal(this.value);
+        });
+    }
 
-document.addEventListener('DOMContentLoaded', function() {
     const togglePwd = document.getElementById('toggleSettingsPassword');
     if(togglePwd) {
         togglePwd.addEventListener('click', function() {
@@ -82,93 +197,115 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// ====================================================
-// GANTI FOTO PROFIL (UTAMA, TAMBAH KEL, EDIT KEL)
-// ====================================================
-const uploadProfileInput = document.getElementById('uploadProfile');
-if (uploadProfileInput) {
-    uploadProfileInput.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('settingsProfilePic').src = e.target.result;
-                document.getElementById('settingsProfilePic').style.display = 'block';
-                document.getElementById('settingsProfileInitials').style.display = 'none';
+function updateDaftarDokter(poliSelected) {
+    const listDokter = document.getElementById('listDokter');
+    const textDokter = document.getElementById('textDokter');
+    const textJam = document.getElementById('textJam');
+    
+    textDokter.innerText = "-- Pilih Dokter --";
+    textDokter.classList.add('text-muted');
+    
+    textJam.value = "-- Pilih Dokter Terlebih Dahulu --";
+    textJam.classList.add('text-muted');
+    textJam.classList.remove('text-teal-mediflow');
 
-                document.getElementById('mainProfilePic').src = e.target.result;
-                document.getElementById('mainProfilePic').style.display = 'block';
-                document.getElementById('mainProfileInitials').style.display = 'none';
+    listDokter.innerHTML = ''; 
+
+    if (dataDokter[poliSelected] && dataDokter[poliSelected].length > 0) {
+        dataDokter[poliSelected].forEach(doc => {
+            let sisa = 15; 
+            let badgeHtml = '';
+            let classDisabled = '';
+            
+            if(kuotaHariIni) {
+                sisa = kuotaHariIni[doc.shiftKey];
+                
+                if(sisa <= 0) {
+                    badgeHtml = `<span class="badge bg-danger ms-2 float-end">Penuh</span>`;
+                    classDisabled = 'disabled text-muted';
+                } else {
+                    let warn = sisa <= 5 ? 'bg-warning text-dark' : 'bg-success bg-opacity-10 text-success border border-success';
+                    badgeHtml = `<span class="badge ${warn} ms-2 float-end">Sisa ${sisa}</span>`;
+                }
             }
-            reader.readAsDataURL(file);
+
+            const li = document.createElement('li');
+            li.innerHTML = `<a class="dropdown-item custom-dd-item ${classDisabled}" href="#" data-value="${doc.nama}" data-shift="${doc.shift}"><strong>${doc.nama}</strong> ${badgeHtml}</a>`;
+            listDokter.appendChild(li);
+        });
+    } else {
+        listDokter.innerHTML = `<li><a class="dropdown-item custom-dd-item disabled text-muted" href="#">Belum ada dokter jadwal hari ini</a></li>`;
+    }
+}
+
+function cekKuotaJadwal(tanggal) {
+    if (!tanggal) return;
+
+    const poliAktif = document.getElementById('textPoli').innerText;
+
+    fetch('cek_kuota_jadwal.php?tanggal=' + tanggal)
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === 'sukses') {
+            kuotaHariIni = {
+                pagi: data.sisa_pagi,
+                siang: data.sisa_siang,
+                malam: data.sisa_malam
+            };
+            
+            if (poliAktif && !poliAktif.includes('--')) {
+                updateDaftarDokter(poliAktif);
+            }
         }
+    })
+    .catch(err => {
+        console.error("Gagal koneksi kuota: ", err);
     });
 }
 
-const kelFotoInput = document.getElementById('kelFoto');
-if(kelFotoInput){
-    kelFotoInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if(file) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                document.getElementById('previewFotoKel').src = event.target.result;
-                document.getElementById('previewFotoKel').style.display = 'block';
-                document.getElementById('iconDefaultKel').style.display = 'none';
-            }
-            reader.readAsDataURL(file);
-        }
-    });
-}
+function detectDevice() {
+    const userAgent = navigator.userAgent;
+    let browser = "Browser Lainnya";
+    let os = "OS Lainnya";
 
-const editKelFotoInput = document.getElementById('editKelFoto');
-if(editKelFotoInput){
-    editKelFotoInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if(file) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                document.getElementById('previewEditFotoKel').src = event.target.result;
-                document.getElementById('previewEditFotoKel').style.display = 'block';
-                document.getElementById('iconEditDefaultKel').style.display = 'none';
-            }
-            reader.readAsDataURL(file);
-        }
-    });
+    if (userAgent.indexOf("Edg") > -1) browser = "Microsoft Edge";
+    else if (userAgent.indexOf("Chrome") > -1) browser = "Google Chrome";
+    else if (userAgent.indexOf("Firefox") > -1) browser = "Mozilla Firefox";
+    else if (userAgent.indexOf("Safari") > -1) browser = "Apple Safari";
+
+    if (userAgent.indexOf("Win") > -1) os = "Windows";
+    else if (userAgent.indexOf("Mac") > -1) os = "MacOS";
+    else if (userAgent.indexOf("Linux") > -1) os = "Linux";
+    else if (userAgent.indexOf("Android") > -1) os = "Android";
+    else if (userAgent.indexOf("like Mac") > -1) os = "iOS";
+
+    const deviceText = `<i class="bi bi-${os === 'Windows' || os === 'MacOS' || os === 'Linux' ? 'laptop' : 'phone'} me-1"></i> ${os} - ${browser}`;
+    let el = document.getElementById('deviceInfo');
+    if(el) el.innerHTML = deviceText;
 }
 
 // ====================================================
-// FITUR PEMILIHAN KAMAR ALA TIX ID & INTEGRASI JADWAL
+// FITUR PEMILIHAN KAMAR 
 // ====================================================
 let dataPesananKamar = null;
 
-function pilihBed(elemen, nomorBed, namaKelas, tarif) {
+function pilihBed(elemen, nomorBed, namaKelas) {
     if (elemen.classList.contains('terisi')) {
-        alert("Mohon maaf, Bed " + nomorBed + " saat ini sedang digunakan/tidak tersedia.");
+        alert("Mohon maaf, Kasur " + nomorBed + " saat ini sedang digunakan.");
         return;
     }
-
-    document.querySelectorAll('.tix-seat').forEach(box => {
-        box.classList.remove('selected');
-    });
-
+    document.querySelectorAll('.tix-seat').forEach(box => { box.classList.remove('selected'); });
     elemen.classList.add('selected');
 
-    dataPesananKamar = {
-        kelas: namaKelas,
-        bed: nomorBed,
-        tarif: tarif
-    };
+    dataPesananKamar = { kelas: namaKelas, bed: nomorBed };
 
     document.getElementById('txtSelectedBed').innerText = namaKelas + " (Bed " + nomorBed + ")";
     document.getElementById('bookingBar').classList.remove('d-none');
 }
 
-// TOMBOL "LANJUTKAN" DI KAMAR (TANPA ALERT)
 function prosesPesanKamar() {
     if (!dataPesananKamar) return;
     
-    // Tulis info bed terpilih ke kotak Jadwal
     const infoContainer = document.getElementById('infoKamarTerpilih');
     infoContainer.innerHTML = `
         <div class="d-flex justify-content-between align-items-center bg-white p-2 rounded-3 border border-info shadow-sm mt-2">
@@ -183,19 +320,15 @@ function prosesPesanKamar() {
         </div>
     `;
     
-    // Isi value form hidden
     const inputHidden = document.getElementById('inputKamarTerpilih');
     if(inputHidden) inputHidden.value = dataPesananKamar.bed;
 
-    // Sembunyikan dan Reset UI Kamar TIX ID
     document.getElementById('bookingBar').classList.add('d-none');
     document.querySelectorAll('.tix-seat').forEach(box => box.classList.remove('selected'));
 
-    // Langsung pindah ke halaman Jadwal dengan mulus tanpa Alert
     switchView('view-jadwal');
 }
 
-// TOMBOL "HAPUS/BATAL" DI FORM JADWAL
 function batalPilihBed() {
     dataPesananKamar = null;
     const inputHidden = document.getElementById('inputKamarTerpilih');
@@ -210,60 +343,95 @@ function batalPilihBed() {
     `;
 }
 
+// ====================================================
+// POP UP KONFIRMASI JADWAL
+// ====================================================
+function bukaKonfirmasiJadwal() {
+    const poli = document.getElementById('textPoli').innerText;
+    const tgl = document.getElementById('inputTanggal').value;
+    const waktu = document.getElementById('textJam').value; 
+    const dokter = document.getElementById('textDokter').innerText;
+    const keluhan = document.getElementById('inputKeluhan').value;
+
+    // Validasi kosong
+    if(poli.includes('--') || !tgl || waktu.includes('--') || dokter.includes('--') || !keluhan) {
+        alert("Harap lengkapi semua data form pendaftaran!");
+        return;
+    }
+
+    // Format Tanggal (Contoh: 2026-06-30 menjadi 30 Juni 2026)
+    const dateObj = new Date(tgl);
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    const formatTgl = dateObj.toLocaleDateString('id-ID', options);
+
+    // Masukkan data ke Modal Konfirmasi
+    document.getElementById('konfPoli').innerText = poli;
+    document.getElementById('konfDokter').innerText = dokter;
+    document.getElementById('konfTgl').innerText = formatTgl;
+    document.getElementById('konfWaktu').innerText = waktu;
+
+    // Tampilkan Modal
+    const modalKonfirmasi = new bootstrap.Modal(document.getElementById('konfirmasiJadwalModal'));
+    modalKonfirmasi.show();
+}
+
 function kirimJadwalAlert() {
-    alert('Jadwal berhasil dikirim! Silakan tunggu konfirmasi Admin.');
-    switchView('view-home'); 
+    const poli = document.getElementById('textPoli').innerText;
+    const tgl = document.getElementById('inputTanggal').value;
+    const waktu = document.getElementById('textJam').value; 
+    const dokter = document.getElementById('textDokter').innerText;
+    const keluhan = document.getElementById('inputKeluhan').value;
+    const bed = document.getElementById('inputKamarTerpilih').value;
+
+    const btn = document.getElementById('btnProsesKonfirmasi');
+    const oldText = btn.innerText;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Memproses...';
+    btn.disabled = true;
+
+    const formData = new FormData();
+    formData.append('poli', poli);
+    formData.append('tanggal', tgl);
+    formData.append('waktu', waktu);
+    formData.append('dokter', dokter);
+    formData.append('keluhan', keluhan);
+    formData.append('bed', bed);
+
+    fetch('simpan_jadwal.php', { 
+        method: 'POST', 
+        body: formData 
+    })
+    .then(res => res.json())
+    .then(data => {
+        btn.disabled = false;
+        btn.innerText = oldText;
+
+        if(data.status === 'sukses') {
+            // Tutup Modal Konfirmasi
+            const modalKonfirmasiEl = document.getElementById('konfirmasiJadwalModal');
+            const modalInstance = bootstrap.Modal.getInstance(modalKonfirmasiEl);
+            if (modalInstance) { modalInstance.hide(); }
+
+            // Tampilkan Modal Sukses
+            const modalSukses = new bootstrap.Modal(document.getElementById('successJadwalModal'));
+            modalSukses.show();
+
+            document.getElementById('successJadwalModal').addEventListener('hidden.bs.modal', function () {
+                window.location.reload();
+            });
+        } else {
+            alert("Gagal menyimpan jadwal! Error: " + data.pesan);
+        }
+    })
+    .catch(err => {
+        btn.disabled = false;
+        btn.innerText = oldText;
+        console.error(err);
+        alert("Error Jaringan saat menyimpan jadwal!");
+    });
 }
 
 // ====================================================
-// FITUR SEARCH BAR REALTIME (DOKTER, POLI, RIWAYAT)
-// ====================================================
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    
-    if(searchInput) {
-        searchInput.addEventListener('keyup', function(e) {
-            const term = e.target.value.toLowerCase().trim();
-
-            if (e.key === 'Enter') {
-                if (term.includes('kamar') || term.includes('inap') || term.includes('bed')) {
-                    switchView('view-kamar');
-                    searchInput.value = ''; return;
-                }
-                if (term.includes('jadwal') || term.includes('janji')) {
-                    switchView('view-jadwal');
-                    searchInput.value = ''; return;
-                }
-                if (term.includes('setting') || term.includes('profil')) {
-                    const settingModal = new bootstrap.Modal(document.getElementById('settingsModal'));
-                    settingModal.show();
-                    searchInput.value = ''; return;
-                }
-            }
-
-            if (term.length > 0 && document.getElementById('view-home').classList.contains('d-none') === false) {
-                switchView('view-riwayat');
-            } else if (term.length === 0) {
-                switchView('view-home');
-            }
-
-            const riwayatItems = document.querySelectorAll('.riwayat-item');
-            riwayatItems.forEach(item => {
-                const textContent = item.innerText.toLowerCase();
-                if (textContent.includes(term)) {
-                    item.style.display = 'block'; 
-                } else {
-                    item.style.display = 'none'; 
-                }
-            });
-            
-        });
-    }
-});
-
-
-// ====================================================
-// SISTEM KELUARGA (TAMBAH, EDIT, HAPUS, SWITCH)
+// SISTEM KELUARGA & MANAJEMEN AKUN
 // ====================================================
 function toggleFormKeluarga() {
     const formTambah = document.getElementById('formTambahKeluarga');
@@ -504,7 +672,9 @@ function simpanEditKeluarga() {
             dataKeluarga[index].bpjs = bpjs;
             dataKeluarga[index].hubungan = hubungan;
             dataKeluarga[index].umur = umurKeluarga;
-            if(data.foto !== '') { dataKeluarga[index].foto = '../uploads/' + data.foto; }
+            if(data.foto !== '') {
+                dataKeluarga[index].foto = '../uploads/' + data.foto;
+            }
 
             document.getElementById('list-nama-'+id).innerText = nama;
             document.getElementById('list-hub-'+id).innerText = hubungan;
@@ -523,7 +693,9 @@ function simpanEditKeluarga() {
                 }
             } else {
                 let initEl = document.getElementById('list-init-'+id);
-                if(initEl){ initEl.innerText = nama.charAt(0).toUpperCase(); }
+                if(initEl){
+                    initEl.innerText = nama.charAt(0).toUpperCase();
+                }
             }
 
             const tabName = document.getElementById('tab-kel-'+id);

@@ -35,7 +35,7 @@ body::before {
 .text-teal-mediflow { color: var(--mediflow-blue) !important; }
 
 /* ======================================================== */
-/* UI PEMILIHAN KAMAR ALA TIX ID */
+/* UI PEMILIHAN SLOT KAMAR (SIMPLIFIED) */
 /* ======================================================== */
 .tix-legend {
     display: flex;
@@ -54,36 +54,33 @@ body::before {
 
 .bed-grid {
     display: grid;
-    /* Grid layaknya bioskop (Tergantung banyak bed, bisa disesuaikan otomatis) */
-    grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
+    gap: 15px;
     justify-items: center;
-    margin-top: 15px;
+    align-items: center;
 }
 
+/* Bentuk Kotak / Slot Bersih */
 .tix-seat {
     width: 100%;
-    aspect-ratio: 1/1;
+    aspect-ratio: 1/1; 
     max-width: 55px;
-    background-color: #1a2c50; /* Warna biru gelap TIX ID */
+    background-color: #1a2c50; 
     color: white;
-    border-radius: 8px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
-.tix-seat:hover { transform: scale(1.1); box-shadow: 0 4px 10px rgba(26, 44, 80, 0.4); }
-.tix-seat.terisi { background-color: #e2e8f0; color: #94a3b8; cursor: not-allowed; box-shadow: none; transform: none; }
-.tix-seat.selected { background-color: var(--mediflow-blue) !important; transform: scale(1.15); box-shadow: 0 4px 12px rgba(56, 200, 230, 0.6); color: white !important;}
 
-/* Lengkungan mirip layar bioskop (Nurse Station) */
-.tix-curve-container { text-align: center; margin-top: 40px; margin-bottom: 20px; }
-.tix-curve-line { height: 20px; border-bottom: 4px solid #cbd5e1; border-radius: 0 0 50% 50%; margin: 0 15%; }
-.tix-curve-text { font-size: 0.75rem; font-weight: 800; color: #94a3b8; letter-spacing: 2px; text-transform: uppercase; margin-top: -12px; background: white; padding: 0 15px; display: inline-block; }
+.tix-seat:hover { transform: scale(1.1); box-shadow: 0 6px 12px rgba(26, 44, 80, 0.3); }
+.tix-seat.terisi { background-color: #e2e8f0; color: #94a3b8; cursor: not-allowed; box-shadow: none; transform: none; }
+.tix-seat.selected { background-color: var(--mediflow-blue) !important; transform: scale(1.15); box-shadow: 0 6px 15px rgba(56, 200, 230, 0.5); color: white !important;}
 
 .floating-booking-bar {
     position: sticky;
@@ -244,7 +241,18 @@ input[type="number"] { -moz-appearance: textfield; }
 .menu-btn-bottom { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); width: 45px; height: 45px; background-color: var(--mediflow-blue); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; box-shadow: 0 4px 10px rgba(56, 200, 230, 0.4); transition: transform 0.3s ease; }
 .menu-card:hover .menu-btn-bottom { transform: translateX(-50%) scale(1.1); }
 
-.ash-right { width: 350px; background: white; border-radius: 35px; padding: 25px; box-shadow: -5px 0 20px rgba(0,0,0,0.03); overflow-y: visible; position: relative; transition: margin-right 0.4s ease-in-out, transform 0.4s ease-in-out; margin-right: 0; }
+.ash-right { 
+    width: 350px; 
+    flex-shrink: 0; /* TAMBAHAN BARU: Agar panel tidak tergencet layar */
+    background: white; 
+    border-radius: 35px; 
+    padding: 25px; 
+    box-shadow: -5px 0 20px rgba(0,0,0,0.03); 
+    overflow-y: visible; 
+    position: relative; 
+    transition: margin-right 0.4s ease-in-out, transform 0.4s ease-in-out; 
+    margin-right: 0; 
+}
 .ash-right.closed { margin-right: -370px; }
 .ash-right::-webkit-scrollbar { display: none; }
 

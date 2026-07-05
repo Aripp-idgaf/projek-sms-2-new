@@ -1,45 +1,57 @@
-<?php 
-// Mengaktifkan session pada php
+<?php
 session_start();
+$koneksi = mysqli_connect("localhost", "root", "", "db_mediflow");
 
-// Menghubungkan php dengan koneksi database
-include 'koneksi.php';
+// Cek koneksi
+if (!$koneksi) {
+    die("Koneksi database gagal.");
+}
 
 // Menangkap data yang dikirim dari form login
-$email = $_POST['email'];
-$password = $_POST['password'];
+$email = mysqli_real_escape_string($koneksi, $_POST['email']);
+$password = mysqli_real_escape_string($koneksi, $_POST['password']);
 
 // Menyeleksi data user dengan email dan password yang sesuai
-$login = mysqli_query($koneksi,"SELECT * FROM users WHERE email='$email' AND password='$password'");
+$query = mysqli_query($koneksi, "SELECT * FROM users WHERE email='$email' AND password='$password'");
+$cek = mysqli_num_rows($query);
 
-// Menghitung jumlah data yang ditemukan
-$cek = mysqli_num_rows($login);
-
-// Cek apakah email dan password di temukan pada database
 if($cek > 0){
+    // Jika data ditemukan, ambil datanya
+    $data = mysqli_fetch_assoc($query);
 
-    // Ambil semua data (baris) pengguna tersebut dari database
-    $data = mysqli_fetch_assoc($login);
-
-    // ========================================================
-    // PROSES SINKRONISASI KE DASHBOARD (MEMASUKKAN KE SESSION)
-    // ========================================================
-    $_SESSION['email'] = $email;
-    $_SESSION['status'] = "login";
-    $_SESSION['role'] = "pasien"; // atau sesuai role di DB Anda
-
-    // Bawa data lainnya dari database ke Session
+    // Menyimpan data ke dalam Session agar bisa dipakai di halaman lain
+    $_SESSION['email'] = $data['email'];
     $_SESSION['nama'] = $data['nama'];
+    $_SESSION['role'] = $data['role']; // Ini yang paling penting
     $_SESSION['nik'] = $data['nik'];
-    $_SESSION['tanggal_lahir'] = $data['tanggal_lahir']; // Format wajib: YYYY-MM-DD
+    $_SESSION['tanggal_lahir'] = $data['tanggal_lahir'];
     $_SESSION['gol_darah'] = $data['gol_darah'];
     $_SESSION['alamat'] = $data['alamat'];
+    $_SESSION['no_bpjs'] = $data['no_bpjs'];
+    $_SESSION['foto_profil'] = $data['foto_profil'];
+    $_SESSION['status'] = "login";
 
-    // Alihkan ke halaman dashboard pasien
-    header("location:../pasien/dashboard.pasien.php");
-
+    // ==========================================================
+    // LOGIKA PERCABANGAN (MENGARAHKAN USER SESUAI ROLE/HAK AKSES)
+    // ==========================================================
+    if($data['role'] == "admin"){
+        // Jika yang login adalah admin, arahkan ke folder admin
+        header("location:../admin/dashboard.admin.php");
+        
+    } else if($data['role'] == "dokter"){
+        // Jika yang login adalah dokter, arahkan ke folder dokter
+        header("location:../dokter/dashboard.dokter.php");
+        
+    } else if($data['role'] == "pasien"){
+        // Jika yang login adalah pasien, arahkan ke folder pasien
+        header("location:../pasien/dashboard.pasien.php");
+        
+    } else {
+        // Jika role tidak dikenali (berjaga-jaga), lempar balik ke login
+        header("location:index.php?pesan=gagal");
+    }
 } else {
-    // Jika gagal, kembalikan ke form login
+    // Jika email atau password salah, lempar balik ke halaman login dengan pesan gagal
     header("location:index.php?pesan=gagal");
 }
 ?>

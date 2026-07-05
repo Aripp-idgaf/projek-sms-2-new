@@ -1,191 +1,99 @@
-let activePatient = null; 
+let currentQueueIdx = 0;
 
-        function triggerMercon() {
-            console.log("Welcome effect triggered");
-        }
-
-        function playDoctorWelcomeEffect() {
-            const doctorImg = document.getElementById('doctor-image');
-            if (!doctorImg) return;
-            doctorImg.classList.remove('welcome-effect');
-            void doctorImg.offsetWidth;
-            doctorImg.classList.add('welcome-effect');
-            setTimeout(() => {
-                doctorImg.classList.remove('welcome-effect');
-            }, 600);
-        }
-
-        function playBubbleEffect() {
-            const bubble = document.getElementById('welcome-bubble');
-            if (!bubble) return;
-            bubble.classList.remove('bubble-pop');
-            void bubble.offsetWidth; 
-            bubble.classList.add('bubble-pop');
-            setTimeout(() => {
-                bubble.classList.remove('bubble-pop');
-            }, 1000);
-        }
-
-        function updateDate() {
-            const today = new Date();
-            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-            const formattedDate = `${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`;
-            const bannerBadge = document.getElementById('dynamic-banner-date');
-            if (bannerBadge) bannerBadge.innerHTML = `<i class="bi bi-calendar-check me-2"></i>${formattedDate}`;
-            const locationDate = document.getElementById('dynamic-banner-location-date');
-            if (locationDate) {
-                let sesi = 'Sesi Pagi';
-                const hour = today.getHours();
-                if (hour >= 11 && hour < 15) sesi = 'Sesi Siang';
-                else if (hour >= 15 && hour < 18) sesi = 'Sesi Sore';
-                else if (hour >= 18) sesi = 'Sesi Malam';
-                locationDate.innerHTML = `<i class="bi bi-cloud-sun fs-5"></i> Semarang, ${formattedDate} | ${sesi}`;
+document.addEventListener('DOMContentLoaded', function() {
+    renderQueue();
+    
+    // ==========================================
+    // FUNGSI TOGGLE MATA UNTUK PASSWORD
+    // ==========================================
+    const togglePwd = document.getElementById('toggleSettingsPassword');
+    if(togglePwd) {
+        togglePwd.addEventListener('click', function() {
+            const pwdInput = document.getElementById('settingsPasswordInput');
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                this.classList.remove('bi-eye-slash');
+                this.classList.add('bi-eye');
+                this.style.color = '#38c8e6'; // Warna aktif (teal)
+            } else {
+                pwdInput.type = 'password';
+                this.classList.remove('bi-eye');
+                this.classList.add('bi-eye-slash');
+                this.style.color = '#a0b8c2'; // Warna non-aktif (abu-abu)
             }
-            const jadwalDate = document.getElementById('dynamic-jadwal-date');
-            if (jadwalDate) jadwalDate.innerHTML = `Periode Pekan Ini (${months[today.getMonth()]} ${today.getFullYear()})`;
-        }
-
-        function markActiveDay() {
-            const today = new Date();
-            const dayIndex = today.getDay(); 
-            const dayMap = { 1: 'SENIN', 2: 'SELASA', 3: 'RABU', 4: 'KAMIS', 5: 'JUMAT', 6: 'SABTU', 0: 'MINGGU' };
-            const activeDayName = dayMap[dayIndex];
-            if (!activeDayName) return;
-            
-            document.querySelectorAll('#jadwalDaysContainer .day-column-card').forEach(card => {
-                card.classList.remove('active-day');
-            });
-            
-            const targetCol = document.querySelector(`#jadwalDaysContainer .col[data-day="${activeDayName}"] .day-column-card`);
-            if (targetCol) {
-                targetCol.classList.add('active-day');
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", () => { 
-            updateDate(); 
-            setTimeout(() => {
-                triggerMercon();
-                playDoctorWelcomeEffect();
-                playBubbleEffect();
-            }, 500);
-            const doctorTrigger = document.getElementById('hero-doctor-trigger');
-            if(doctorTrigger) doctorTrigger.addEventListener('mouseenter', triggerMercon);
         });
+    }
+});
 
-        function triggerConflictSimulation() { alert("⚠️ VALIDATION SYSTEM ALERT: Jam bentrok dengan jadwal aktif!"); }
-        function triggerBlockSmartSimulation() { alert("🔒 SMART BLOCKING: Gagal. Sesi berada pada jam Istirahat Dokter."); }
-        function triggerHistoryPopUpSim() { alert("📋 REKAM MEDIS TERAKHIR - Diagnosa: Dermatitis Kontak Alergi (L23.9)\nTerapi: Hidrokortison Krim 1%."); }
+function updateDateTime() {
+    const realtimeElement = document.getElementById('realtime-datetime');
+    if(realtimeElement) {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        realtimeElement.innerText = now.toLocaleDateString('id-ID', options).replace(/\./g, ':');
+    }
+}
+setInterval(updateDateTime, 1000);
+updateDateTime();
 
-        function switchView(viewId) {
-            if(viewId === 'view-dashboard') {
-                const docWrapper = document.querySelector('.hero-doctor-wrapper');
-                if(docWrapper) {
-                    docWrapper.style.animation = 'none';
-                    docWrapper.offsetHeight;
-                    docWrapper.style.animation = 'fadeInOnly 0.6s ease forwards';
-                }
-                setTimeout(() => {
-                    triggerMercon();
-                    playDoctorWelcomeEffect();
-                    playBubbleEffect();
-                }, 150);
-            }
-            document.querySelectorAll('.view-section').forEach(view => view.classList.add('d-none'));
-            document.getElementById(viewId).classList.remove('d-none');
-            
-            if(viewId === 'view-pasien') {
-                if(activePatient !== null) {
-                    document.getElementById('pasien-empty-state').classList.add('d-none');
-                    document.getElementById('pasien-active-state').classList.remove('d-none');
-                } else {
-                    document.getElementById('pasien-empty-state').classList.remove('d-none');
-                    document.getElementById('pasien-active-state').classList.add('d-none');
-                }
-            }
-            if(viewId === 'view-jadwal') {
-                markActiveDay();
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+function switchView(viewId) {
+    document.querySelectorAll('.view-section').forEach(el => el.classList.add('d-none'));
+    const targetSection = document.getElementById(viewId);
+    if (targetSection) targetSection.classList.remove('d-none');
+}
 
-        function periksaPasien(id, name, reason, category) {
-            activePatient = { id: id, name: name, reason: reason, category: category };
-            document.getElementById('emr-name').textContent = name;
-            document.getElementById('emr-reason').value = `Pasien mengeluhkan gejala terkait ${reason}.`;
-            document.querySelectorAll('.queue-item-pasien').forEach(el => {
-                el.classList.remove('active', 'opacity-75');
-                if(el.id !== 'queue-' + id) el.classList.add('opacity-75');
-            }); 
-            const activeQueue = document.getElementById('queue-' + id);
-            if(activeQueue) activeQueue.classList.add('active');
-            switchView('view-pasien');
-        }
+function renderQueue() {
+    const container = document.getElementById('queue-data-container');
+    const counter = document.getElementById('queue-counter');
+    const wrapper = document.getElementById('queue-card-wrapper');
+    const badge = document.getElementById('queue-badge');
+    
+    // ======== JIKA ANTREAN KOSONG ========
+    if (!antreanData || antreanData.length === 0) {
+        wrapper.style.borderColor = 'transparent';
+        wrapper.classList.remove('border-start'); 
+        badge.style.display = 'none';
 
-        function resetPeriksa() {
-            activePatient = null;
-            document.querySelectorAll('.queue-item-pasien').forEach(el => el.classList.remove('active', 'opacity-75'));
-            switchView('view-pasien');
-        }
+        container.innerHTML = `
+            <div class="d-flex flex-column align-items-center justify-content-center text-center w-100" style="border: 2px dashed #d1e5e5; border-radius: 12px; padding: 25px 15px; background-color: #fafbfc; min-height: 140px;">
+                <i class="bi bi-calendar-x text-muted mb-2" style="font-size: 2.2rem; opacity: 0.5;"></i>
+                <h6 class="fw-bold text-dark mb-2">Belum Ada Antrean Hari Ini</h6>
+                <p class="text-muted small mb-0" style="max-width: 90%;">Anda belum memiliki antrean pasien. Pasien yang mendaftar poli Anda akan muncul di sini.</p>
+            </div>
+        `;
+        counter.innerText = '0/0';
+        return;
+    }
 
-        function selesaiPeriksa() {
-            alert('Rekam medis berhasil disimpan ke Database!');
-            activePatient = null;
-            switchView('view-dashboard'); 
-        }
-        
-        function logout() { 
-        // Arahkan ke file logout.php yang tadi kita buat
-                window.location.href = '../login/logout.php'; 
-        }
+    // ======== JIKA ADA ANTREAN ========
+    wrapper.style.borderColor = '#f39c12';
+    wrapper.classList.add('border-start');
+    badge.style.display = 'block';
 
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('realtime-clock').textContent = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0') + ' WIB';
-        }
-        setInterval(updateClock, 1000); updateClock(); 
-        
-        function showDetailRiwayat(nama, rm, tipe, tgl, keluhan, diagnosa, terapi, golDarah) {
-            let inisial = nama.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
-            
-            document.getElementById('modalAvatar').innerText = inisial;
-            document.getElementById('modalNama').innerText = nama;
-            document.getElementById('modalRM').innerText = rm;
-            document.getElementById('modalDocId').innerText = "DOC-" + rm.split('-')[1];
-            document.getElementById('modalTipe').innerText = tipe;
-            document.getElementById('modalTgl').innerText = tgl;
-            document.getElementById('modalKeluhan').innerText = keluhan;
-            document.getElementById('modalDiagnosa').innerText = diagnosa;
-            document.getElementById('modalTerapi').innerText = terapi;
-            document.getElementById('modalGolDarah').innerText = golDarah;
-            
-            const detailModal = new bootstrap.Modal(document.getElementById('modalDetailRiwayat'));
-            detailModal.show();
-        }
-        
-        function toggleDoctorStatus() {
-            const isChecked = document.getElementById('doctorStatusToggle').checked;
-            const statusLabel = document.getElementById('statusLabel');
-            
-            if(isChecked) {
-                statusLabel.textContent = "Menerima Pasien";
-                statusLabel.classList.remove('status-off');
-                statusLabel.classList.add('status-on');
-            } else {
-                statusLabel.textContent = "Sedang Istirahat";
-                statusLabel.classList.remove('status-on');
-                statusLabel.classList.add('status-off');
-            }
-        }
+    const data = antreanData[currentQueueIdx];
+    container.innerHTML = `
+        <h6 class="fw-bold text-dark mb-1"><i class="bi bi-person-bounding-box text-teal-mediflow me-2"></i>Pasien Berikutnya</h6>
+        <hr class="my-2" style="opacity:0.1">
+        <div class="row g-2 mt-1 small">
+            <div class="col-6"><span class="text-muted d-block" style="font-size:0.7rem;">Nama Pasien</span><span class="fw-bold text-dark">${data.nama_pasien}</span></div>
+            <div class="col-6"><span class="text-muted d-block" style="font-size:0.7rem;">No. RM</span><span class="fw-bold text-dark">${data.no_rm}</span></div>
+            <div class="col-6 mt-3"><span class="text-muted d-block" style="font-size:0.7rem;">Tanggal & Jam</span><span class="fw-bold text-danger">${data.tanggal} • ${data.waktu}</span></div>
+            <div class="col-6 mt-3"><span class="text-muted d-block" style="font-size:0.7rem;">Keluhan Utama</span><span class="fw-bold text-dark text-truncate d-block" title="${data.keluhan}">${data.keluhan}</span></div>
+        </div>
+    `;
+    counter.innerText = (currentQueueIdx + 1) + '/' + antreanData.length;
+}
 
-        // FUNGSI BARU UNTUK TOGGLE PENGUMUMAN ("...Selengkapnya")
-        function togglePengumuman(btn) {
-            const textElement = document.getElementById('teksPengumuman');
-            if(textElement.classList.contains('expanded')) {
-                textElement.classList.remove('expanded');
-                btn.innerText = '...Selengkapnya';
-            } else {
-                textElement.classList.add('expanded');
-                btn.innerText = 'Sembunyikan';
-            }
-        }
+function nextQueue() {
+    if (antreanData && antreanData.length > 0) {
+        currentQueueIdx = (currentQueueIdx + 1) % antreanData.length;
+        renderQueue();
+    }
+}
+
+function prevQueue() {
+    if (antreanData && antreanData.length > 0) {
+        currentQueueIdx = (currentQueueIdx - 1 + antreanData.length) % antreanData.length;
+        renderQueue();
+    }
+}
